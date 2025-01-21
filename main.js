@@ -3,7 +3,7 @@ class Game extends Phaser.Scene
     preload ()
     {
         this.load.image('sky', 'imgs/space.jpg')
-        this.load.image('logo', 'imgs/dbslogo_PNG(1).png');
+        this.load.image('logo', 'imgs/ms_teach.png');
         this.load.image('particle', 'imgs/pngwing.com(1).png');
     };
 
@@ -18,7 +18,7 @@ class Game extends Phaser.Scene
         });
         // Adding Logo to the game
         const logo = this.physics.add.image(100, 100, 'logo'); // Adding logo plus with the physics function
-
+        logo.setScale(0.5);
         logo.setVelocity(400, 400); // Speed of the logo
         logo.setBounce(1, 1); // Make it bounce on the screen
         logo.setCollideWorldBounds(true); // Make sure that the logo doesn't goes off the screen
@@ -42,6 +42,11 @@ class Game extends Phaser.Scene
         addButton.on('pointerdown', () => {
             this.addLogo();
         }, this);
+
+
+        var credit_label = this.add.text(25,10,'Thanks to \"Rany\" for this image!', {fontSize:'10px',fill:'#fff'});
+        credit_label.setOrigin(0.5);
+        
     };
 
     addLogo() 
