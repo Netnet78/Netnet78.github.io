@@ -127,9 +127,9 @@ h1, h2, p {
     background-color: #00cc99;
     cursor: default;
     z-index: 5;
-    outline: 2px solid #00ffcc; /* Further reduced from 3px */
+    outline: 3px solid #00ffcc; /* Further reduced from 3px */
     outline-offset: -2px; /* Further reduced from -3px */
-    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.6); /* Further reduced from 16px */
+    box-shadow: 0px 0px 16px rgba(0, 255, 204, 0.6); /* Further reduced from 16px */
 }
 
 .card.matched::before {

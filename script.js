@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     // Popup that ask the user to play
     const popup = document.getElementById('popup');
     const playButton = document.getElementById('playButton');
@@ -9,17 +8,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const userInput = document.getElementById('nameInput').value;
 
         if (userInput === "") {
-            alert("Pleae input your name first!");
-            return
-        };
+            alert("Please input your name first!");
+            return;
+        }
 
         userName = userInput;
         document.getElementById('greeting').textContent = `Hello, ${userName}! 🎉`;
         popup.style.display = 'none';
     });
 
-
-    const imageFolder = 'images'; // Folder containing your images
+    // Define image names directly instead of trying to fetch them
+    const imageNames = [];
+    for (let i = 1; i <= 27; i++) {
+        imageNames.push(`photo_${i}_2025-02-09_15-01-53`);
+    }
+    
     let cards = [];
     let flippedCards = [];
     let matchedCards = [];
@@ -27,30 +30,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let hoverSound = new Audio("audio/beep.wav");
     let clickSound = new Audio("audio/hover-sound-click.mp3");
     let successSound = new Audio("audio/success.mp3");
-    let victorySound = new Audio("audio/audience-clapping.mp3")
+    let victorySound = new Audio("audio/audience-clapping.mp3");
     let victoryMessage = document.getElementById("completed-popup");
     let victoryUser = document.getElementById("winner");
     
-    // Fetch the list of images from the folder
-    async function fetchImages() {
-        try {
-            const response = await fetch(imageFolder);
-            const text = await response.text();
-            const parser = new DOMParser();
-            const html = parser.parseFromString(text, 'text/html');
-            const links = html.querySelectorAll('a');
-    
-            // Filter out non-image files and create pairs
-            const imageFiles = Array.from(links)
-                .map(link => link.href)
-                .filter(href => /\.(png|jpg|jpeg|gif)$/i.test(href))
-                .map(href => href.split('/').pop()); // Extract file names
-    
-            // Create pairs for the memory game
-            cards = [...imageFiles, ...imageFiles]; // Duplicate each image for pairs
-        } catch (error) {
-            console.error('Error fetching images:', error);
-        }
+    // Create pairs from the image names
+    function createCardPairs() {
+        // Select a subset of images if you want fewer cards
+        const selectedImages = imageNames.slice(0, 28);
+        cards = [...selectedImages, ...selectedImages]; // Duplicate for pairs
+        shuffle(cards);
     }
     
     // Shuffle the cards
@@ -64,27 +53,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // Create the game board
     function createBoard() {
         const gameBoard = document.getElementById('game-board');
-        shuffle(cards);
-    
-        cards.forEach((imageName, index) => {
+        gameBoard.innerHTML = ''; // Clear existing cards
+        
+        cards.forEach((imageName) => {
             const card = document.createElement('div');
             card.classList.add('card');
-            card.dataset.image = imageName; // Store the image name in a data attribute
-            card.style.backgroundImage = `url('${imageFolder}/${imageName}')`; // Assign the image
-            card.addEventListener('click',flipCard);
-            card.addEventListener('click',() => {
-                playSound(clickSound,1);
+            card.dataset.image = imageName;
+            
+            // Set the background image directly on the card
+            card.style.backgroundImage = `url('images/${imageName}.jpg')`;
+            
+            card.addEventListener('click', flipCard);
+            card.addEventListener('click', () => {
+                playSound(clickSound, 1);
             });
             card.addEventListener('mouseover', () => {
-                playSound(hoverSound,1);
+                playSound(hoverSound, 1);
             });
+            
             gameBoard.appendChild(card);
         });
     }
     
     // Flip a card
     function flipCard() {
-        if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+        if (flippedCards.length < 2 && !this.classList.contains('flipped') && !matchedCards.includes(this)) {
             this.classList.add('flipped');
             flippedCards.push(this);
     
@@ -95,11 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     // Play sound when user hovers
-    function playSound(sound,volume) {
+    function playSound(sound, volume) {
         sound.volume = volume;
-        sound.play();
+        sound.play().catch(error => console.log("Sound play error:", error));
     }
-
 
     // Play background music
     function playMusic() {
@@ -107,11 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Autoplay blocked:", error)
         );
     }
+    
     bgMusic.addEventListener("ended", () => {
         bgMusic.currentTime = 0;
-        bgMusic.play()
+        bgMusic.play().catch(error => console.log("Music replay error:", error));
     });
-    
     
     // Check if the flipped cards match
     function checkMatch() {
@@ -121,24 +113,21 @@ document.addEventListener("DOMContentLoaded", function () {
             card1.classList.add('matched');
             card2.classList.add('matched');
             matchedCards.push(card1, card2);
-            playSound(successSound,1)
+            playSound(successSound, 1);
     
             if (matchedCards.length === cards.length) {
-                setTimeout(() => playSound(victorySound, 1), 500);
-                let victoryMessage = document.getElementById("completed-popup");
-                let victoryUser = document.getElementById("winner");
-                victoryMessage.style.display = "flex"
-                victoryUser.textContent = `អបអរសាទរ ${userName}! 🎉🎉🎉`
+                showVictory();
             }
         } else {
             // Hide the images again
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }, 500);
         }
     
         flippedCards = [];
     }
-
 
     // Show victory screen
     function showVictory() {
@@ -152,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const allCards = document.querySelectorAll('.card');
         const cardPairs = {};
 
-        // Group cards by their image
         allCards.forEach(card => {
             const image = card.dataset.image;
             if (!cardPairs[image]) {
@@ -161,7 +149,6 @@ document.addEventListener("DOMContentLoaded", function () {
             cardPairs[image].push(card);
         });
 
-        // Match all pairs instantly
         Object.values(cardPairs).forEach(pair => {
             pair.forEach(card => {
                 card.classList.add('flipped', 'matched');
@@ -170,11 +157,10 @@ document.addEventListener("DOMContentLoaded", function () {
             playSound(successSound, 1);
         });
 
-        // Show victory screen
         showVictory();
     }
 
-    // Hidden secret, DO NOT TOUCH
+    // Hidden secret
     let cheatCode = '';
     let cheatTimer;
     
@@ -182,21 +168,22 @@ document.addEventListener("DOMContentLoaded", function () {
         cheatCode += event.key;
         clearTimeout(cheatTimer);
         cheatTimer = setTimeout(() => {
-            cheatCode = ''; // Reset the cheat code after 3 seconds
+            cheatCode = '';
         }, 3000);
     
         if (cheatCode.toLowerCase() === 'owner') {
             instantWin();
-            cheatCode = ''; // Reset the cheat code after triggering
+            cheatCode = '';
         }
     });
     
     // Initialize the game
-    async function init() {
-        await fetchImages(); // Fetch images first
-        createBoard(); // Create the game board
+    function init() {
+        createCardPairs();
+        createBoard();
     }
-    document.addEventListener("click",playMusic,{once:true});
+    
+    document.addEventListener("click", playMusic, {once: true});
     
     init();
-})
+});
