@@ -6,22 +6,32 @@ body {
     background-color: #0a0a1a;
     color: #e0e0e0;
     margin: 0;
-    padding: 0;
-    font-size: 12px; /* Further reduced from 14px */
+    padding: 10px;
+    font-size: 12px;
 }
 
 h1, h2, p {
     font-family: "Kantumruy Pro", serif;
     color: #00ffcc;
     margin: 0;
-    margin-bottom: 7px; /* Further reduced from 8px */
+    margin-bottom: 7px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    padding: 0 10px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    padding: 0 10px;
 }
 
 .popup {
     display: flex;
     position: fixed;
     font-family: "Kantumruy Pro", serif;
-    font-size: 38px;
+    font-size: 24px;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
@@ -29,22 +39,28 @@ h1, h2, p {
     align-items: center;
     z-index: 10;
     transition: visibility 0.5s linear;
+    left: 0;
+    top: 0;
 }
 
 .popup-content {
     background: #1a1a2e;
-    padding: 16px; /* Further reduced from 16px */
-    border-radius: 5px; /* Further reduced from 6px */
+    padding: 16px;
+    border-radius: 5px;
     text-align: center;
-    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.5); /* Further reduced from 16px */
+    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.5);
     border: 1px solid #00ffcc;
+    width: 90%;
+    max-width: 400px;
+    margin: 0 10px;
 }
 
 #nameInput {
     font-family: "Kantumruy Pro", serif;
-    width: 390px; /* Further reduced from 160px */
-    height: 35px; /* Further reduced from 28px */
-    font-size: 24px;
+    width: 90%;
+    max-width: 300px;
+    height: 35px;
+    font-size: 18px;
     padding: 12px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -59,11 +75,11 @@ h1, h2, p {
     background-color: #00ffcc;
     color: #1a1a2e;
     border: none;
-    padding: 7px 14px; /* Further reduced from 8px 16px */
+    padding: 7px 14px;
     cursor: pointer;
-    margin: 7px; /* Further reduced from 8px */
+    margin: 7px;
     font-family: "Kantumruy Pro", serif;
-    font-size: 24px; /* Further reduced from 13px */
+    font-size: 20px;
     border-radius: 3px;
     transition: background-color 0.3s ease;
 }
@@ -74,24 +90,26 @@ h1, h2, p {
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(9, 126px); /* Further reduced from 144px */
-    grid-gap: 7px; /* Further reduced from 8px */
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-gap: 5px;
     justify-content: center;
-    margin: 14px auto; /* Further reduced from 16px */
+    margin: 14px auto;
+    max-width: 100%;
+    padding: 0 10px;
 }
 
 .card {
-    width: 87px; /* Further reduced from 100px */
-    height: 87px; /* Further reduced from 100px */
+    width: 100%;
+    padding-bottom: 100%; /* Creates a square aspect ratio */
     background-color: #1a1a2e;
-    border-radius: 7px; /* Further reduced from 8px */
+    border-radius: 7px;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     position: relative;
     background-size: cover;
     background-position: center;
     border: 1px solid #00ffcc;
-    box-shadow: 0px 0px 7px rgba(0, 255, 204, 0.3); /* Further reduced from 8px */
+    box-shadow: 0px 0px 7px rgba(0, 255, 204, 0.3);
 }
 
 .card::before {
@@ -99,24 +117,27 @@ h1, h2, p {
     content: "?";
     position: absolute;
     color: #00ffcc;
-    font-size: 17px; /* Further reduced from 19px */
-    padding: 35px 39px; /* Further reduced from 40px 45px */
-    border-radius: 7px; /* Further reduced from 8px */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    font-size: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    top: 0;
+    left: 0;
 }
 
 .card:hover {
-    transform: translate(-1.4px, -1.4px); /* Further reduced from -1.6px */
-    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.6); /* Further reduced from 16px */
+    transform: translate(-1.4px, -1.4px);
+    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.6);
 }
 
 .card.flipped {
     background-color: #6b5b95;
     transform: rotateY(180deg);
     border: 1px solid #ff00ff;
-    box-shadow: 0px 0px 14px rgba(255, 0, 255, 0.5); /* Further reduced from 16px */
+    box-shadow: 0px 0px 14px rgba(255, 0, 255, 0.5);
 }
 
 .card.flipped::before {
@@ -127,9 +148,9 @@ h1, h2, p {
     background-color: #00cc99;
     cursor: default;
     z-index: 5;
-    outline: 3px solid #00ffcc; /* Further reduced from 3px */
-    outline-offset: -2px; /* Further reduced from -3px */
-    box-shadow: 0px 0px 16px rgba(0, 255, 204, 0.6); /* Further reduced from 16px */
+    outline: 3px solid #00ffcc;
+    outline-offset: -2px;
+    box-shadow: 0px 0px 16px rgba(0, 255, 204, 0.6);
 }
 
 .card.matched::before {
@@ -142,4 +163,50 @@ h1, h2, p {
 
 #my-name {
     font-family: "Ms Madi", serif;
+}
+
+/* Media Queries */
+@media screen and (max-width: 375px) {
+    /* iPhone X and smaller */
+    body {
+        padding: 5px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    .popup {
+        font-size: 20px;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(6, 1fr);
+        grid-gap: 4px;
+        padding: 0 5px;
+    }
+
+    .card::before {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 376px) and (max-width: 767px) {
+    /* Larger phones */
+    #game-board {
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 5px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* Tablets and larger */
+    #game-board {
+        grid-template-columns: repeat(9, 1fr);
+        max-width: 900px;
+    }
 }
