@@ -10,16 +10,28 @@
     <div class="popup" id="popup">
         <div class="popup-content">
             <p>រីករាយថ្ងៃខួបកំណើត!!!​ 🎊</p>
-            <p>This is a special game for everyone!</p>
-            <button id="playButton">លេងហ្គេម</button>
+            <p>Hello! What is your name?</p>
+            <input id="nameInput" type="text" placeholder="សូមដាក់ឈ្មោះរបស់អ្នកនៅទីនេះ" required>
+            <br />
+            <button id="playButton" type="submit">លេងហ្គេម</button>
+        </div>
+    </div>
+
+    <div class="popup" id="completed-popup">
+        <div class="popup-content">
+            <p id="winner"></p>
+            <p>Thank you for playing!!!</p>
+            <p>Wish you the best! ❤️</p>
+            <p id="my-name">- Phaneth. </p>
         </div>
     </div>
 
     <br />
-
-    <h1 class="title">ល្បែងទស្សន៍ទាយ ស្វែងរកមុខមនុស្សឱ្យដូចគ្នា</h1>
+    <h1 id="greeting"></h1>
+    <h2 class="title">នេះជាល្បែងទស្សន៍ទាយ ស្វែងរកមុខមនុស្សឱ្យដូចគ្នា</h2>
     <p>សាកល្បងសមត្ថភាពចងចាំ មុនពេលប្រឡងដោយ៖ ស៊ី សុផានិត</p>
     <div id="game-board"></div>
+    <audio id="bgMusic" src="audio/ferris_wheel.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>

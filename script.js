@@ -3,19 +3,33 @@ document.addEventListener("DOMContentLoaded", function () {
     // Popup that ask the user to play
     const popup = document.getElementById('popup');
     const playButton = document.getElementById('playButton');
+    let userName = '';
 
     playButton.addEventListener('click', () => {
+        const userInput = document.getElementById('nameInput').value;
+
+        if (userInput === "") {
+            alert("Pleae input your name first!");
+            return
+        };
+
+        userName = userInput;
+        document.getElementById('greeting').textContent = `Hello, ${userName}! 🎉`;
         popup.style.display = 'none';
-    })
+    });
 
 
-
-    // Actual game codes
     const imageFolder = 'images'; // Folder containing your images
     let cards = [];
     let flippedCards = [];
     let matchedCards = [];
-    var hoverSound = new Audio("audio/hover-sound-click.mp3");
+    let bgMusic = document.getElementById("bgMusic");
+    let hoverSound = new Audio("audio/beep.wav");
+    let clickSound = new Audio("audio/hover-sound-click.mp3");
+    let successSound = new Audio("audio/success.mp3");
+    let victorySound = new Audio("audio/audience-clapping.mp3")
+    let victoryMessage = document.getElementById("completed-popup");
+    let victoryUser = document.getElementById("winner");
     
     // Fetch the list of images from the folder
     async function fetchImages() {
@@ -57,8 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
             card.classList.add('card');
             card.dataset.image = imageName; // Store the image name in a data attribute
             card.style.backgroundImage = `url('${imageFolder}/${imageName}')`; // Assign the image
-            card.addEventListener('click', flipCard);
-            card.addEventListener('mouseover', playSound);
+            card.addEventListener('click',flipCard);
+            card.addEventListener('click',() => {
+                playSound(clickSound,1);
+            });
+            card.addEventListener('mouseover', () => {
+                playSound(hoverSound,1);
+            });
             gameBoard.appendChild(card);
         });
     }
@@ -76,9 +95,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     // Play sound when user hovers
-    function playSound() {
-        hoverSound.play();
+    function playSound(sound,volume) {
+        sound.volume = volume;
+        sound.play();
     }
+
+
+    // Play background music
+    function playMusic() {
+        bgMusic.play().catch(error =>
+            console.log("Autoplay blocked:", error)
+        );
+    }
+    bgMusic.addEventListener("ended", () => {
+        bgMusic.currentTime = 0;
+        bgMusic.play()
+    });
     
     
     // Check if the flipped cards match
@@ -89,9 +121,14 @@ document.addEventListener("DOMContentLoaded", function () {
             card1.classList.add('matched');
             card2.classList.add('matched');
             matchedCards.push(card1, card2);
+            playSound(successSound,1)
     
             if (matchedCards.length === cards.length) {
-                setTimeout(() => alert('You won! 🎉'), 500);
+                setTimeout(() => playSound(victorySound, 1), 500);
+                let victoryMessage = document.getElementById("completed-popup");
+                let victoryUser = document.getElementById("winner");
+                victoryMessage.style.display = "flex"
+                victoryUser.textContent = `អបអរសាទរ ${userName}! 🎉🎉🎉`
             }
         } else {
             // Hide the images again
@@ -101,12 +138,65 @@ document.addEventListener("DOMContentLoaded", function () {
     
         flippedCards = [];
     }
+
+
+    // Show victory screen
+    function showVictory() {
+        setTimeout(() => playSound(victorySound, 1), 500);
+        victoryMessage.style.display = "flex";
+        victoryUser.textContent = `អបអរសាទរ ${userName}! 🎉🎉🎉`;
+    }
+
+    // Instant win function
+    function instantWin() {
+        const allCards = document.querySelectorAll('.card');
+        const cardPairs = {};
+
+        // Group cards by their image
+        allCards.forEach(card => {
+            const image = card.dataset.image;
+            if (!cardPairs[image]) {
+                cardPairs[image] = [];
+            }
+            cardPairs[image].push(card);
+        });
+
+        // Match all pairs instantly
+        Object.values(cardPairs).forEach(pair => {
+            pair.forEach(card => {
+                card.classList.add('flipped', 'matched');
+                matchedCards.push(card);
+            });
+            playSound(successSound, 1);
+        });
+
+        // Show victory screen
+        showVictory();
+    }
+
+    // Hidden secret, DO NOT TOUCH
+    let cheatCode = '';
+    let cheatTimer;
+    
+    document.addEventListener('keydown', (event) => {
+        cheatCode += event.key;
+        clearTimeout(cheatTimer);
+        cheatTimer = setTimeout(() => {
+            cheatCode = ''; // Reset the cheat code after 3 seconds
+        }, 3000);
+    
+        if (cheatCode.toLowerCase() === 'owner') {
+            instantWin();
+            cheatCode = ''; // Reset the cheat code after triggering
+        }
+    });
     
     // Initialize the game
     async function init() {
         await fetchImages(); // Fetch images first
         createBoard(); // Create the game board
     }
+    document.addEventListener("click",playMusic,{once:true});
     
     init();
 })
