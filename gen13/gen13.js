@@ -215,11 +215,39 @@ document.addEventListener("DOMContentLoaded", function () {
             cheatCode = '';
         }
     });
+
+    // Function to create snowflakes
+    function createSnowflakes() {
+        const snowflakeContainer = document.createElement('div');
+        snowflakeContainer.style.position = 'fixed';
+        snowflakeContainer.style.top = '0';
+        snowflakeContainer.style.left = '0';
+        snowflakeContainer.style.width = '100%';
+        snowflakeContainer.style.height = '100%';
+        snowflakeContainer.style.pointerEvents = 'none';
+        snowflakeContainer.style.zIndex = '9999';
+        document.body.appendChild(snowflakeContainer);
+
+        const numberOfSnowflakes = 50;
+
+        for (let i = 0; i < numberOfSnowflakes; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            snowflake.style.opacity = Math.random();
+            snowflake.style.width = `${Math.random() * 20 + 10}px`;
+            snowflake.style.height = snowflake.style.width;
+            snowflakeContainer.appendChild(snowflake);
+        }
+    }
+    
     
     // Initialize the game
     function init() {
         createCardPairs();
         createBoard();
+        createSnowflakes();
     }
     
     document.addEventListener("click", playMusic, {once: true});
