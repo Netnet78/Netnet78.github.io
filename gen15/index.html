@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sy Sophaneth">
+    <meta name="description" content="My birthday game I made for myself and my friends.">
+    <meta name="keywords" content="Memory game, ហ្គេមទស្សន៍ទាយ, ល្បែងទស្សន៍ទាយ, ល្បែងទស្សន៍ទាយ សម្រាប់ថ្ងៃខួបកំណើតរបស់ខ្ញុំ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ល្បែងទស្សន៍ទាយ សម្រាប់ថ្ងៃខួបកំណើតរបស់ខ្ញុំ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Startup popup section -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p>រីករាយថ្ងៃខួបកំណើត!!!​ 🎊</p>
+            <p>Hello! What is your name?</p>
+            <input id="nameInput" type="text" placeholder="សូមដាក់ឈ្មោះរបស់អ្នកនៅទីនេះ" required>
+            <br />
+            <button id="playButton" type="submit">លេងហ្គេម</button>
+        </div>
+    </div>
+
+    <!-- Victory popup section -->
+    <div class="popup" id="completed-popup">
+        <div class="popup-content">
+            <p id="winner"></p>
+            <p>Thank you for playing!!!</p>
+            <p>Wish you the best! ❤️</p>
+            <p id="my-name">- Phaneth. </p>
+        </div>
+    </div>
+
+    <!-- Main interface -->
+    <br />
+    <div id="main-interface">
+        <!-- Title/Greeting (with name) section -->
+        <div id="header">
+            <h1 id="greeting"></h1>
+            <h2 class="title">ហ្គេមទស្សន៍ទាយ ស្វែងរកមុខមនុស្សឱ្យដូចគ្នា</h2>
+            <p>សាកល្បងសមត្ថភាពចងចាំ មុនពេលប្រឡងដោយ៖ ស៊ី សុផានិត</p>
+        </div>
+
+        <div id="middle-section">
+            <!-- Main game board section -->
+            <div id="game-board"></div>
+
+            <!-- Button to toggle mode selection interface -->
+            <span class="mode-toggle-btn" id="mode-toggle">
+                <p>⚙️ ផ្លាស់ប្ដូរជំនាន់រូបសិស្ស </p>
+            </span>
+            <!-- Mode selection menu section -->
+            <div id="mode-selection-menu" class="popup">
+                <div class="popup-content">
+                    <h3>ជ្រើសរើសយកជំនាន់មួយណាដែរ? 🤔</h3>
+                    <span id="gen-13">
+                        <p>🧓👵 សិស្សច្បង ជំនាន់ទី១៣</p>
+                    </span>
+                    <span id="gen-14">
+                        <p>👨👩 សិស្សច្បង ជំនាន់ទី១៤</p>
+                    </span>
+                    <span id="gen-15">
+                        <p>👦👧 សិស្សប្អូន ជំនាន់ទី១៥ (Coming soon maybe?)</p>
+                    </span>
+                    <span id="back-btn">
+                        <p>🔙 ត្រឡប់ទៅក្រោយវិញ</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Audio  -->
+    <audio id="bgMusic" src="../audio/ferris_wheel.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

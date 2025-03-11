@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Popup that ask the user to play
-    const popup = document.getElementById('popup');
+    const startup_popup = document.getElementById('startup-popup');
     const playButton = document.getElementById('playButton');
     let userName = '';
 
@@ -14,7 +14,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
         userName = userInput;
         document.getElementById('greeting').textContent = `Hello, ${userName}! 🎉`;
-        popup.style.display = 'none';
+        startup_popup.style.display = 'none';
+    });
+
+    // Victory popup
+    const back_btn_victory = document.getElementById('back-btn-victory');
+    const victory_popup = document.getElementById('completed-popup');
+    function close_popup(popup) {
+        popup.style.display = 'none'
+    }
+    back_btn_victory.addEventListener('click', () => {
+        close_popup(victory_popup);
+    });
+
+    // Mode selection menu popup that ask the user to change a specific mode
+    const selection_popup = document.getElementById('mode-selection-menu');
+    const selection_popup_toggle = document.getElementById('mode-toggle');
+    const back_btn = document.querySelector('#back-btn');
+    const gen_13_btn = document.getElementById('gen-13');
+    const gen_14_btn = document.getElementById('gen-14');
+    const gen_15_btn = document.getElementById('gen-15');
+    const sp = selection_popup;
+    const spt = selection_popup_toggle;
+
+    spt.addEventListener('click', ()=> {
+        sp.style.display = 'flex';
+        sp.style.visibility = 'visible';
+    });
+
+    back_btn.addEventListener('click', () => {
+        sp.style.display = 'none';
+        sp.style.visibility = 'hidden';
+    });
+
+    gen_13_btn.addEventListener('click', () => {
+        window.open('./gen13',"_self")
+    });
+    gen_14_btn.addEventListener('click', () => {
+        window.open('./gen14',"_self");
+    });
+    gen_15_btn.addEventListener('click', () => {
+        window.open("./gen15", "_self");
     });
 
     // Define image names directly instead of trying to fetch them
@@ -61,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             card.dataset.image = imageName;
             
             // Set the background image directly on the card
-            card.style.backgroundImage = `url('images/${imageName}.jpg')`;
+            card.style.backgroundImage = `url('images/GEN14/${imageName}.jpg')`;
             
             card.addEventListener('click', flipCard);
             card.addEventListener('click', () => {

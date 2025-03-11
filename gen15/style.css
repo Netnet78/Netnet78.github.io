@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Dangrek&family=Figtree:ital,wght@0,300..900;1,300..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ms+Madi&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --background-color: #0a0a1a;
+    --text-color: #e0e0e0;
+    --primary-color: #00ffcc;
+    --secondary-color: #1a1a2e;
+    --accent-color: #ff00ff;
+    --card-background: #1a1a2e;
+    --card-border: #00ffcc;
+    --card-shadow: rgba(0, 255, 204, 0.3);
+    --card-flipped-background: #6b5b95;
+    --card-flipped-border: #ff00ff;
+    --card-flipped-shadow: rgba(255, 0, 255, 0.5);
+    --card-matched-background: #00cc99;
+    --card-matched-outline: #00ffcc;
+    --button-background: #00ffcc;
+    --button-hover-background: #00cc99;
+    --button-text-color: #1a1a2e;
+    --popup-background: rgba(0, 0, 0, 0.8);
+    --popup-content-background: #1a1a2e;
+    --popup-content-border: #00ffcc;
+    --popup-content-shadow: rgba(0, 255, 204, 0.5);
+    --mode-toggle-background: #00ffcc;
+    --mode-toggle-hover-background: #ff00ff;
+    --mode-toggle-shadow: rgba(255, 0, 255, 0.5);
+    --back-button-background: #fc3b3b;
+    --back-button-hover-background: #ff2c2c;
+    --back-button-shadow: rgba(250, 18, 33, 0.5);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 10px;
+    font-size: 12px;
+}
+
+h1, h2, p {
+    font-family: "Kantumruy Pro", serif;
+    color: var(--primary-color);
+    margin: 0;
+    margin-bottom: 7px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    padding: 0 10px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    padding: 0 10px;
+}
+
+/* Popup section */
+.popup {
+    display: flex;
+    position: fixed;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    background: var(--popup-background);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: visibility 0.5s linear;
+    left: 0;
+    top: 0;
+}
+
+.popup-content {
+    background: var(--popup-content-background);
+    padding: 16px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 14px var(--popup-content-shadow);
+    border: 1px solid var(--popup-content-border);
+    width: 90%;
+    max-width: 400px;
+    margin: 0 10px;
+}
+
+#nameInput {
+    font-family: "Kantumruy Pro", serif;
+    width: 90%;
+    max-width: 300px;
+    height: 35px;
+    font-size: 18px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: var(--popup-content-background);
+    border: 2px solid var(--popup-content-border);
+    border-radius: 5px;
+    color: var(--primary-color);
+    outline: none;
+}
+
+#playButton {
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    border: none;
+    padding: 7px 14px;
+    cursor: pointer;
+    margin: 7px;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 20px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+#playButton:hover {
+    background-color: var(--button-hover-background);
+}
+
+/* Game section */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-gap: 5px;
+    justify-content: center;
+    margin: 14px auto;
+    max-width: 100%;
+    padding: 0 10px;
+}
+
+.card {
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: var(--card-background);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--card-border);
+    box-shadow: 0px 0px 7px var(--card-shadow);
+}
+
+.card::before {
+    background-color: var(--card-background);
+    content: "?";
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    top: 0;
+    left: 0;
+}
+
+.card:hover {
+    transform: translate(-1.4px, -1.4px);
+    box-shadow: 0px 0px 14px var(--card-shadow);
+}
+
+.card.flipped {
+    background-color: var(--card-flipped-background);
+    transform: rotateY(180deg);
+    border: 1px solid var(--card-flipped-border);
+    box-shadow: 0px 0px 14px var(--card-flipped-shadow);
+}
+
+.card.flipped::before {
+    opacity: 0;
+}
+
+.card.matched {
+    background-color: var(--card-matched-background);
+    cursor: default;
+    z-index: 5;
+    outline: 3px solid var(--card-matched-outline);
+    outline-offset: -2px;
+    box-shadow: 0px 0px 16px var(--card-shadow);
+}
+
+.card.matched::before {
+    opacity: 0;
+}
+
+/* Mode-selection menu */
+.mode-toggle-btn {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+.mode-toggle-btn {
+    margin: 0 auto 0 auto;
+    width: 25%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--mode-toggle-background);
+    font-size: 1.1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mode-toggle-btn:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0px 0px 16px var(--mode-toggle-shadow);
+    transform: translate(-1.4px, -1.4px);
+}
+
+.mode-toggle-btn p {
+    color: black;
+    font-weight: bold;
+}
+
+#mode-selection-menu {
+    display: none;
+    position: fixed;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    background: var(--popup-background);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    left: 0;
+    top: 0;
+}
+
+#mode-selection-menu .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#mode-selection-menu .popup-content h3 {
+    font-size: 18px;
+}
+
+#mode-selection-menu .popup-content span {
+    padding: 10px;
+    border-radius: 25px;
+    background-color: var(--mode-toggle-background);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+#mode-selection-menu .popup-content #back-btn {
+    background-color: var(--back-button-background);
+}
+
+#mode-selection-menu .popup-content span:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0px 0px 16px var(--mode-toggle-shadow);
+}
+
+#mode-selection-menu .popup-content #back-btn:hover {
+    background-color: var(--back-button-hover-background);
+    box-shadow: 0px 0px 16px var(--back-button-shadow);
+}
+
+#mode-selection-menu .popup-content span p {
+    color: #0a0a1a;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#completed-popup {
+    display: none;
+}
+
+#my-name {
+    font-family: "Ms Madi", serif;
+}
+
+/* Media Queries */
+@media screen and (max-width: 375px) {
+    /* iPhone X and smaller */
+    body {
+        padding: 5px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    .popup {
+        font-size: 20px;
+    }
+
+    #game-board {
+        grid-template-columns: repeat(6, 1fr);
+        grid-gap: 4px;
+        padding: 0 5px;
+    }
+
+    .card::before {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 376px) and (max-width: 767px) {
+    /* Larger phones */
+    #game-board {
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 5px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* Tablets and larger */
+    #game-board {
+        grid-template-columns: repeat(9, 1fr);
+        max-width: 900px;
+    }
+}

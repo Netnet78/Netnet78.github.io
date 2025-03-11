@@ -1,10 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Dangrek&family=Figtree:ital,wght@0,300..900;1,300..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ms+Madi&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    --background-color: #0a0a1a;
+    --text-color: #e0e0e0;
+    --primary-color: #00ffcc;
+    --secondary-color: #1a1a2e;
+    --accent-color: #ff00ff;
+    --card-background: #1a1a2e;
+    --card-border: #00ffcc;
+    --card-shadow: rgba(0, 255, 204, 0.3);
+    --card-flipped-background: #6b5b95;
+    --card-flipped-border: #ff00ff;
+    --card-flipped-shadow: rgba(255, 0, 255, 0.5);
+    --card-matched-background: #00cc99;
+    --card-matched-outline: #00ffcc;
+    --button-background: #00ffcc;
+    --button-hover-background: #00cc99;
+    --button-text-color: #1a1a2e;
+    --popup-background: rgba(0, 0, 0, 0.8);
+    --popup-content-background: #1a1a2e;
+    --popup-content-border: #00ffcc;
+    --popup-content-shadow: rgba(0, 255, 204, 0.5);
+    --mode-toggle-background: #00ffcc;
+    --mode-toggle-hover-background: #ff00ff;
+    --mode-toggle-shadow: rgba(255, 0, 255, 0.5);
+    --back-button-background: #fc3b3b;
+    --back-button-hover-background: #ff2c2c;
+    --back-button-shadow: rgba(250, 18, 33, 0.5);
+}
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #0a0a1a;
-    color: #e0e0e0;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 10px;
     font-size: 12px;
@@ -12,7 +41,7 @@ body {
 
 h1, h2, p {
     font-family: "Kantumruy Pro", serif;
-    color: #00ffcc;
+    color: var(--primary-color);
     margin: 0;
     margin-bottom: 7px;
 }
@@ -27,6 +56,7 @@ h2 {
     padding: 0 10px;
 }
 
+/* Popup section */
 .popup {
     display: flex;
     position: fixed;
@@ -34,7 +64,7 @@ h2 {
     font-size: 24px;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--popup-background);
     justify-content: center;
     align-items: center;
     z-index: 10;
@@ -44,15 +74,48 @@ h2 {
 }
 
 .popup-content {
-    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    background: var(--popup-content-background);
     padding: 16px;
     border-radius: 5px;
     text-align: center;
-    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.5);
-    border: 1px solid #00ffcc;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 14px var(--popup-content-shadow);
+    border: 1px solid var(--popup-content-border);
     width: 90%;
     max-width: 400px;
     margin: 0 10px;
+}
+
+/* Victory dialog CSS */
+#completed-popup {
+    display: none;
+}
+
+#my-name {
+    font-family: "Ms Madi", serif;
+}
+
+.popup-content span.btn {
+    width: 75%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--mode-toggle-background);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.popup-content span.btn p {
+    color: #0a0a1a;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.popup-content span.btn:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0 0 16px var(--mode-toggle-shadow);
 }
 
 #nameInput {
@@ -64,16 +127,16 @@ h2 {
     padding: 12px;
     margin-top: 10px;
     margin-bottom: 10px;
-    background: #1a1a2e;
-    border: 2px solid #00ffcc;
+    background: var(--popup-content-background);
+    border: 2px solid var(--popup-content-border);
     border-radius: 5px;
-    color: #00ffcc;
+    color: var(--primary-color);
     outline: none;
 }
 
 #playButton {
-    background-color: #00ffcc;
-    color: #1a1a2e;
+    background-color: var(--button-background);
+    color: var(--button-text-color);
     border: none;
     padding: 7px 14px;
     cursor: pointer;
@@ -85,9 +148,10 @@ h2 {
 }
 
 #playButton:hover {
-    background-color: #00cc99;
+    background-color: var(--button-hover-background);
 }
 
+/* Game section */
 #game-board {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
@@ -100,23 +164,23 @@ h2 {
 
 .card {
     width: 100%;
-    padding-bottom: 100%; /* Creates a square aspect ratio */
-    background-color: #1a1a2e;
+    padding-bottom: 100%;
+    background-color: var(--card-background);
     border-radius: 7px;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     position: relative;
     background-size: cover;
     background-position: center;
-    border: 1px solid #00ffcc;
-    box-shadow: 0px 0px 7px rgba(0, 255, 204, 0.3);
+    border: 1px solid var(--card-border);
+    box-shadow: 0px 0px 7px var(--card-shadow);
 }
 
 .card::before {
-    background-color: #1a1a2e;
+    background-color: var(--card-background);
     content: "?";
     position: absolute;
-    color: #00ffcc;
+    color: var(--primary-color);
     font-size: 17px;
     width: 100%;
     height: 100%;
@@ -130,14 +194,14 @@ h2 {
 
 .card:hover {
     transform: translate(-1.4px, -1.4px);
-    box-shadow: 0px 0px 14px rgba(0, 255, 204, 0.6);
+    box-shadow: 0px 0px 14px var(--card-shadow);
 }
 
 .card.flipped {
-    background-color: #6b5b95;
+    background-color: var(--card-flipped-background);
     transform: rotateY(180deg);
-    border: 1px solid #ff00ff;
-    box-shadow: 0px 0px 14px rgba(255, 0, 255, 0.5);
+    border: 1px solid var(--card-flipped-border);
+    box-shadow: 0px 0px 14px var(--card-flipped-shadow);
 }
 
 .card.flipped::before {
@@ -145,24 +209,101 @@ h2 {
 }
 
 .card.matched {
-    background-color: #00cc99;
+    background-color: var(--card-matched-background);
     cursor: default;
     z-index: 5;
-    outline: 3px solid #00ffcc;
+    outline: 3px solid var(--card-matched-outline);
     outline-offset: -2px;
-    box-shadow: 0px 0px 16px rgba(0, 255, 204, 0.6);
+    box-shadow: 0px 0px 16px var(--card-shadow);
 }
 
 .card.matched::before {
     opacity: 0;
 }
 
-#completed-popup {
-    display: none;
+/* Mode-selection menu */
+.mode-toggle-btn {
+    display: flex;
+    position: relative;
+    flex-direction: column;
 }
 
-#my-name {
-    font-family: "Ms Madi", serif;
+.mode-toggle-btn {
+    margin: 0 auto 0 auto;
+    width: 25%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--mode-toggle-background);
+    font-size: 1.1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.mode-toggle-btn:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0px 0px 16px var(--mode-toggle-shadow);
+    transform: translate(-1.4px, -1.4px);
+}
+
+.mode-toggle-btn p {
+    color: black;
+    font-weight: bold;
+}
+
+#mode-selection-menu {
+    display: none;
+    position: fixed;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    background: var(--popup-background);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    left: 0;
+    top: 0;
+}
+
+#mode-selection-menu .popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#mode-selection-menu .popup-content h3 {
+    font-size: 18px;
+}
+
+#mode-selection-menu .popup-content span {
+    width: 90%;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: var(--mode-toggle-background);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+#mode-selection-menu .popup-content #back-btn {
+    background-color: var(--back-button-background);
+}
+
+#mode-selection-menu .popup-content span:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0px 0px 16px var(--mode-toggle-shadow);
+}
+
+#mode-selection-menu .popup-content #back-btn:hover {
+    background-color: var(--back-button-hover-background);
+    box-shadow: 0px 0px 16px var(--back-button-shadow);
+}
+
+#mode-selection-menu .popup-content span p {
+    color: #0a0a1a;
+    font-family: "Kantumruy Pro", serif;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Media Queries */
@@ -193,6 +334,16 @@ h2 {
     .card::before {
         font-size: 14px;
     }
+
+    .mode-toggle-btn {
+        width: fit-content;
+    }
+    .mode-toggle-btn p {
+        font-size: 12px;
+    }
+    #mode-selection-menu .popup-content span p {
+        font-size: 11px;
+    }
 }
 
 @media screen and (min-width: 376px) and (max-width: 767px) {
@@ -200,6 +351,15 @@ h2 {
     #game-board {
         grid-template-columns: repeat(7, 1fr);
         grid-gap: 5px;
+    }
+    .mode-toggle-btn {
+        width: fit-content;
+    }
+    .mode-toggle-btn p {
+        font-size: 12px;
+    }
+    #mode-selection-menu .popup-content span p {
+        font-size: 14px;
     }
 }
 
