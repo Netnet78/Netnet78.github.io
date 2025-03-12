@@ -366,7 +366,7 @@ h2 {
     }
 
     #game-board {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         grid-gap: 4px;
         padding: 0 5px;
     }
@@ -389,7 +389,7 @@ h2 {
 @media screen and (min-width: 376px) and (max-width: 767px) {
     /* Larger phones */
     #game-board {
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         grid-gap: 5px;
     }
     .mode-toggle-btn {
@@ -406,7 +406,7 @@ h2 {
 @media screen and (min-width: 768px) {
     /* Tablets and larger */
     #game-board {
-        grid-template-columns: repeat(8, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         max-width: 900px;
     }
 }

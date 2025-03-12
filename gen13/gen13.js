@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Define image names directly instead of trying to fetch them
     const imageNames = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 21; i++) {
         imageNames.push(`photo_${i}_2025-03-10_14-28-11`);
     }
     
