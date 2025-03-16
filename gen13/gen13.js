@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.open('../gen13',"_self")
     });
     gen_14_btn.addEventListener('click', () => {
-        window.open('../gen14',"_self");
+        window.open('../',"_self");
     });
     gen_15_btn.addEventListener('click', () => {
         window.open("../gen15", "_self");
