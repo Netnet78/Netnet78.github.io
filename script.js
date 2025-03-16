@@ -216,11 +216,118 @@ document.addEventListener("DOMContentLoaded", function () {
             cheatCode = '';
         }
     });
+
+    // Function to create stars with fade-in and fade-out animation
+    function createFadingStars() {
+        const starContainer = document.createElement('div');
+        starContainer.classList.add('star-container');
+        document.body.appendChild(starContainer);
+
+        const numberOfStars = 50; // Number of stars to create
+        const starImages = ['pixel-star', 'pixel-shiny-star']; // Star image variants
+
+        for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+
+            // Randomly choose between the two star images
+            const starType = starImages[Math.floor(Math.random() * starImages.length)];
+            star.classList.add(starType);
+
+            // Random position on the screen
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+
+            // Random animation duration (2s to 5s)
+            const animationDuration = `${Math.random() * 3 + 2}s`;
+            star.style.animationDuration = animationDuration;
+
+            // Random delay for the animation (0s to 3s)
+            const animationDelay = `${Math.random() * 3}s`;
+            star.style.animationDelay = animationDelay;
+
+            starContainer.appendChild(star);
+        }
+    }
+
+    // Function to create moving stars with fade-in and fade-out animation
+    function createMovingStars() {
+        const starContainer = document.createElement('div');
+        starContainer.classList.add('moving-stars-container');
+        document.body.appendChild(starContainer);
+    
+        const numberOfStars = 20; // Number of stars to create
+        const starImages = ['pixel-star', 'pixel-shiny-star']; // Star image variants
+    
+        for (let i = 0; i < numberOfStars; i++) {
+            // Create wrapper for horizontal movement
+            const starWrapper = document.createElement('div');
+            starWrapper.classList.add('star-wrapper');
+            
+            // Set random vertical position
+            starWrapper.style.top = `${Math.random() * 90 + 5}vh`;
+            
+            // Set random movement speed and delay
+            const moveSpeed = Math.random() * 10 + 5;
+            starWrapper.style.setProperty('--move-duration', `${moveSpeed}s`);
+            starWrapper.style.setProperty('--move-delay', `${Math.random() * 5}s`);
+            
+            // Create main star container
+            const star = document.createElement('div');
+            
+            // Random size for all elements
+            const size = Math.random() * 20 + 10;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            // Randomly choose image
+            const starType = starImages[Math.floor(Math.random() * starImages.length)];
+            const imgUrl = `url('images/${starType}.png')`;
+            star.style.backgroundImage = imgUrl;
+            
+            // Create spinning main star
+            const mainStar = document.createElement('div');
+            mainStar.classList.add('star-main');
+            mainStar.style.backgroundImage = imgUrl;
+            
+            // Random spin speed for main star
+            const spinSpeed = Math.random() * 3 + 2;
+            star.style.setProperty('--spin-duration', `${spinSpeed}s`);
+            star.style.setProperty('--spin-delay', `${Math.random() * 2}s`);
+            
+            // Create first trail with independent spin
+            const trail1 = document.createElement('div');
+            trail1.classList.add('star-trail-1');
+            trail1.style.backgroundImage = imgUrl;
+            
+            // Different spin speed for trail 1
+            star.style.setProperty('--trail1-spin-duration', `${Math.random() * 3 + 2}s`);
+            star.style.setProperty('--trail1-spin-delay', `${Math.random() * 2}s`);
+            
+            // Create second trail with independent spin
+            const trail2 = document.createElement('div');
+            trail2.classList.add('star-trail-2');
+            trail2.style.backgroundImage = imgUrl;
+            
+            // Different spin speed for trail 2
+            star.style.setProperty('--trail2-spin-duration', `${Math.random() * 3 + 2}s`);
+            star.style.setProperty('--trail2-spin-delay', `${Math.random() * 2}s`);
+            
+            // Build the star assembly
+            star.appendChild(mainStar);
+            star.appendChild(trail1);
+            star.appendChild(trail2);
+            starWrapper.appendChild(star);
+            starContainer.appendChild(starWrapper);
+        }
+    }
     
     // Initialize the game
     function init() {
         createCardPairs();
         createBoard();
+        createFadingStars();
+        createMovingStars();
     }
     
     document.addEventListener("click", playMusic, {once: true});

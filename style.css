@@ -306,6 +306,149 @@ h2 {
     font-weight: bold;
 }
 
+
+/* Fade in and out animation for stars */
+@keyframes star-fade {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Animation for moving stars from left to right */
+@keyframes moveMovingStars {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+
+/* Star container */
+.star-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .7;
+}
+
+/* Star styling */
+.star {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    animation: star-fade 3s infinite ease-in-out;
+}
+
+.star.pixel-star {
+    background-image: url('images/pixel-star.png');
+}
+
+.star.pixel-shiny-star {
+    background-image: url('images/pixel-shiny-star.png');
+}
+
+/* Container for the moving stars */
+.moving-stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1; /* Behind everything except body */
+    overflow: hidden;
+}
+  
+/* Main star element */
+.moving-star {
+position: absolute;
+width: 20px;
+height: 20px;
+background-size: cover;
+}
+
+/* Wrapper to handle the horizontal movement */
+.star-wrapper {
+position: absolute;
+animation: moveAcrossScreen var(--move-duration) linear infinite;
+animation-delay: var(--move-delay);
+}
+
+/* Main star with its own rotation */
+.star-main {
+position: absolute;
+width: 100%;
+height: 100%;
+background-image: inherit;
+background-size: cover;
+animation: spinStar var(--spin-duration) linear infinite;
+animation-delay: var(--spin-delay);
+}
+
+/* First trail with its own independent rotation */
+.star-trail-1 {
+position: absolute;
+top: 0;
+left: -20px;
+width: 100%;
+height: 100%;
+background-image: inherit;
+background-size: cover;
+opacity: 0.7;
+filter: blur(1px);
+animation: spinStar var(--trail1-spin-duration) linear infinite;
+animation-delay: var(--trail1-spin-delay);
+}
+
+/* Second trail with its own independent rotation */
+.star-trail-2 {
+position: absolute;
+top: 0;
+left: -40px;
+width: 100%;
+height: 100%;
+background-image: inherit;
+background-size: cover;
+opacity: 0.4;
+filter: blur(2px);
+animation: spinStar var(--trail2-spin-duration) linear infinite;
+animation-delay: var(--trail2-spin-delay);
+}
+
+/* Animation for individual spinning */
+@keyframes spinStar {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+
+/* Animation for moving across screen */
+@keyframes moveAcrossScreen {
+0% {
+    transform: translateX(-50px);
+}
+100% {
+    transform: translateX(calc(100vw + 50px));
+}
+}
+
+
 /* Media Queries */
 @media screen and (max-width: 375px) {
     /* iPhone X and smaller */
