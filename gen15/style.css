@@ -1,32 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Dangrek&family=Figtree:ital,wght@0,300..900;1,300..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ms+Madi&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --background-color: #0a0a1a;
+    --background-color: #1a1a2e;
     --text-color: #e0e0e0;
-    --primary-color: #00ffcc;
-    --secondary-color: #1a1a2e;
-    --accent-color: #ff00ff;
-    --card-background: #1a1a2e;
-    --card-border: #00ffcc;
-    --card-shadow: rgba(0, 255, 204, 0.3);
-    --card-flipped-background: #6b5b95;
-    --card-flipped-border: #ff00ff;
-    --card-flipped-shadow: rgba(255, 0, 255, 0.5);
-    --card-matched-background: #00cc99;
-    --card-matched-outline: #00ffcc;
-    --button-background: #00ffcc;
-    --button-hover-background: #00cc99;
+    --primary-color: #ffd700;
+    --secondary-color: #6805F2; 
+    --accent-color: #C627F2;
+    --card-background: #1a1a2e; 
+    --card-border: #ffd700;
+    --card-shadow: rgba(255, 215, 0, 0.3);
+    --card-flipped-background: #6805F2;
+    --card-flipped-border: #ffd700;
+    --card-flipped-shadow: rgba(255, 215, 0, 0.5);
+    --card-matched-background: #ffd700;
+    --card-matched-outline: #6805F2;
+    --card-matched-shadow: rgba(104, 5, 242, 0.5);
+    --button-background: #ffd700;
+    --button-hover-background: #6805F2;
     --button-text-color: #1a1a2e;
-    --popup-background: rgba(0, 0, 0, 0.8);
-    --popup-content-background: #1a1a2e;
-    --popup-content-border: #00ffcc;
-    --popup-content-shadow: rgba(0, 255, 204, 0.5);
-    --mode-toggle-background: #00ffcc;
-    --mode-toggle-hover-background: #ff00ff;
+    --popup-background: rgba(26, 26, 46, 0.8);
+    --popup-content-background: #1a1a2e; 
+    --popup-content-border: #ffd700;
+    --popup-content-shadow: rgba(255, 215, 0, 0.5);
+    --mode-toggle-background: #ffd700;
+    --mode-toggle-hover-background: #6805F2;
     --mode-toggle-shadow: rgba(255, 0, 255, 0.5);
-    --back-button-background: #fc3b3b;
-    --back-button-hover-background: #ff2c2c;
-    --back-button-shadow: rgba(250, 18, 33, 0.5);
+    --back-button-background: #6805F2;
+    --back-button-hover-background: #ffd700;
+    --back-button-shadow: rgba(255, 215, 0, 0.5);
 }
 
 body {
@@ -74,15 +75,48 @@ h2 {
 }
 
 .popup-content {
+    display: flex;
+    flex-direction: column;
     background: var(--popup-content-background);
     padding: 16px;
     border-radius: 5px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     box-shadow: 0px 0px 14px var(--popup-content-shadow);
     border: 1px solid var(--popup-content-border);
     width: 90%;
     max-width: 400px;
     margin: 0 10px;
+}
+
+/* Victory dialog CSS */
+#completed-popup {
+    display: none;
+}
+
+#my-name {
+    font-family: "Ms Madi", serif;
+}
+
+.popup-content span.btn {
+    width: 75%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--mode-toggle-background);
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.popup-content span.btn p {
+    color: #0a0a1a;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.popup-content span.btn:hover {
+    background-color: var(--mode-toggle-hover-background);
+    box-shadow: 0 0 16px var(--mode-toggle-shadow);
 }
 
 #nameInput {
@@ -181,7 +215,7 @@ h2 {
     z-index: 5;
     outline: 3px solid var(--card-matched-outline);
     outline-offset: -2px;
-    box-shadow: 0px 0px 16px var(--card-shadow);
+    box-shadow: 0px 0px 16px var(--card-matched-shadow);
 }
 
 .card.matched::before {
@@ -244,6 +278,7 @@ h2 {
 }
 
 #mode-selection-menu .popup-content span {
+    width: 90%;
     padding: 10px;
     border-radius: 25px;
     background-color: var(--mode-toggle-background);
@@ -272,13 +307,89 @@ h2 {
     font-weight: bold;
 }
 
-#completed-popup {
-    display: none;
+/* Starfall Animation */
+@keyframes starfall {
+    0% {
+        transform: translateY(-10%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
 }
 
-#my-name {
-    font-family: "Ms Madi", serif;
+/* Outer Glow animation */
+@keyframes card-glow {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(255, 215, 0, 0.9);
+    }
+    100% {
+        box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0.7);
+    }
 }
+
+/* Inner Glow animation */
+@keyframes inner-card-glow {
+    0% {
+        box-shadow: inset 0 0 10px 5px rgba(255, 215, 0, 0.7);
+    }
+    50% {
+        box-shadow: inset 0 0 20px 10px rgba(255, 215, 0, 0.9);
+    }
+    100% {
+        box-shadow: inset 0 0 10px 5px rgba(255, 215, 0, 0.7);
+    }
+}
+
+@keyframes matched-card-glow {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(138, 43, 226, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(138, 43, 226, 0.9);
+    }
+    100% {
+        box-shadow: 0 0 10px 5px rgba(138, 43, 226, 0.7);
+    }
+}
+
+/* Stars raining down */
+.starfall {
+    position: absolute;
+    top: -10%;
+    width: 20px;
+    height: 20px;   
+    background-size: cover;
+    animation: starfall linear infinite;
+}
+
+/* Card glow effect */
+.card.glow-effect {
+    animation: card-glow 0.5s ease-in-out;
+}
+
+.card.matched.glow-effect {
+    animation: matched-card-glow 0.5s ease-in-out;
+}
+
+.glow-effect {
+    animation: inner-card-glow 0.5s ease-in-out;
+}
+
+/* Stars animation duration */
+.starfall:nth-child(1) { animation-duration: 10s; }
+.starfall:nth-child(2) { animation-duration: 12s; } 
+.starfall:nth-child(3) { animation-duration: 8s; }
+.starfall:nth-child(4) { animation-duration: 14s; }
+.starfall:nth-child(5) { animation-duration: 11s; }
+.starfall:nth-child(6) { animation-duration: 9s; }
+.starfall:nth-child(7) { animation-duration: 13s; }
+.starfall:nth-child(8) { animation-duration: 7s; }
+.starfall:nth-child(9) { animation-duration: 15s; }
+.starfall:nth-child(10) { animation-duration: 10s; }
+
 
 /* Media Queries */
 @media screen and (max-width: 375px) {
@@ -308,6 +419,16 @@ h2 {
     .card::before {
         font-size: 14px;
     }
+
+    .mode-toggle-btn {
+        width: fit-content;
+    }
+    .mode-toggle-btn p {
+        font-size: 12px;
+    }
+    #mode-selection-menu .popup-content span p {
+        font-size: 11px;
+    }
 }
 
 @media screen and (min-width: 376px) and (max-width: 767px) {
@@ -315,6 +436,15 @@ h2 {
     #game-board {
         grid-template-columns: repeat(7, 1fr);
         grid-gap: 5px;
+    }
+    .mode-toggle-btn {
+        width: fit-content;
+    }
+    .mode-toggle-btn p {
+        font-size: 12px;
+    }
+    #mode-selection-menu .popup-content span p {
+        font-size: 14px;
     }
 }
 

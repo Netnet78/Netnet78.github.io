@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Popup that ask the user to play
-    const popup = document.getElementById('popup');
+    const startup_popup = document.getElementById('startup-popup');
     const playButton = document.getElementById('playButton');
     let userName = '';
 
@@ -14,13 +14,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         userName = userInput;
         document.getElementById('greeting').textContent = `Hello, ${userName}! 🎉`;
-        popup.style.display = 'none';
+        startup_popup.style.display = 'none';
+    });
+
+    // Victory popup
+    const back_btn_victory = document.getElementById('back-btn-victory');
+    const victory_popup = document.getElementById('completed-popup');
+    function close_popup(popup) {
+        popup.style.display = 'none'
+    }
+    back_btn_victory.addEventListener('click', () => {
+        close_popup(victory_popup);
     });
 
     // Mode selection menu popup that ask the user to change a specific mode
     const selection_popup = document.getElementById('mode-selection-menu');
     const selection_popup_toggle = document.getElementById('mode-toggle');
-    const back_btn = document.getElementById('back-btn');
+    const back_btn = document.querySelector('#back-btn');
     const gen_13_btn = document.getElementById('gen-13');
     const gen_14_btn = document.getElementById('gen-14');
     const gen_15_btn = document.getElementById('gen-15');
@@ -41,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.open('../gen13',"_self")
     });
     gen_14_btn.addEventListener('click', () => {
-        window.open('../gen14',"_self");
+        window.open('../',"_self");
     });
     gen_15_btn.addEventListener('click', () => {
         window.open("../gen15", "_self");
@@ -50,9 +60,92 @@ document.addEventListener("DOMContentLoaded", function () {
     // Define image names directly instead of trying to fetch them
     const imageNames = [];
     for (let i = 1; i <= 27; i++) {
-        imageNames.push(`photo_${i}_2025-02-09_15-01-53`);
+        imageNames.push(`photo_${i}`);
+    }
+
+
+    // Function to fade out the music
+    function fadeOutMusic(audioElement, duration = 1000) {
+        return new Promise((resolve) => {
+            const fadeOutInterval = 50; // Interval in milliseconds
+            const steps = duration / fadeOutInterval;
+            const stepSize = audioElement.volume / steps;
+
+            const fadeOut = setInterval(() => {
+                if (audioElement.volume > 0) {
+                    audioElement.volume = Math.max(0, audioElement.volume - stepSize);
+                } else {
+                    clearInterval(fadeOut);
+                    audioElement.pause(); // Pause the audio after fading out
+                    resolve();
+                }
+            }, fadeOutInterval);
+        });
+    }
+
+    // Function to fade in the music
+    function fadeInMusic(audioElement, duration = 1000) {
+        return new Promise((resolve) => {
+            const fadeInInterval = 50; // Interval in milliseconds
+            const steps = duration / fadeInInterval;
+            const stepSize = 1 / steps;
+
+            audioElement.volume = 0; // Start from 0 volume
+            audioElement.play(); // Start playing the music
+
+            const fadeIn = setInterval(() => {
+                if (audioElement.volume < 1) {
+                    audioElement.volume = Math.min(1, audioElement.volume + stepSize);
+                } else {
+                    clearInterval(fadeIn);
+                    resolve();
+                }
+            }, fadeInInterval);
+        });
+    }
+
+
+    // Add the analyzeAudio function
+    function analyzeAudio(audioElement) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaElementSource(audioElement);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+    
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+    
+        function checkBeat() {
+            analyser.getByteFrequencyData(dataArray);
+    
+            let sum = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                sum += dataArray[i];
+            }
+            const average = sum / bufferLength;
+    
+            // Threshold for detecting a beat
+            if (average > 99) { // Adjust this threshold based on your audio
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.classList.add('glow-effect');
+                    document.body.classList.add('glow-effect');
+                    setTimeout(() => {
+                        card.classList.remove('glow-effect');
+                        document.body.classList.remove('glow-effect');
+                    }, 1500); // Duration of the glow effect
+                });
+            }
+    
+            requestAnimationFrame(checkBeat);
+        }
+    
+        checkBeat();
     }
     
+
     let cards = [];
     let flippedCards = [];
     let matchedCards = [];
@@ -91,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
             card.dataset.image = imageName;
             
             // Set the background image directly on the card
-            card.style.backgroundImage = `url('../images/GEN14/${imageName}.jpg')`;
+            card.style.backgroundImage = `url('../images/GEN15/${imageName}.jpg')`;
             
             card.addEventListener('click', flipCard);
             card.addEventListener('click', () => {
@@ -125,14 +218,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Play background music
     function playMusic() {
-        bgMusic.play().catch(error =>
-            console.log("Autoplay blocked:", error)
-        );
+        const bgMusic = document.getElementById("bgMusic");
+        fadeInMusic(bgMusic, 1000).catch(error => {
+            console.log("Autoplay blocked:", error);
+        });
     }
     
     bgMusic.addEventListener("ended", () => {
-        bgMusic.currentTime = 0;
-        bgMusic.play().catch(error => console.log("Music replay error:", error));
+        fadeOutMusic(bgMusic, 2500).then(() => {
+            bgMusic.currentTime = 0;
+            fadeInMusic(bgMusic, 1000).catch(error => {
+                console.log("Music replay error:", error);
+            });
+        });
     });
     
     // Check if the flipped cards match
@@ -206,11 +304,41 @@ document.addEventListener("DOMContentLoaded", function () {
             cheatCode = '';
         }
     });
+
+    // Function to create star falling effect
+    function createStarFall() {
+        const starFallContainer = document.createElement('div');
+        starFallContainer.style.position = 'fixed';
+        starFallContainer.style.top = '0';
+        starFallContainer.style.left = '0';
+        starFallContainer.style.width = '100%';
+        starFallContainer.style.height = '100%';
+        starFallContainer.style.pointerEvents = 'none';
+        starFallContainer.style.zIndex = '9999';
+        document.body.appendChild(starFallContainer);
+
+        const numberOfStarsFall = 50;
+        const starImages = ['url("../images/star.png")', 'url("../images/purple-star.png")'];
+
+        for (let i = 0; i < numberOfStarsFall; i++) {
+            const starFall = document.createElement('div');
+            starFall.classList.add('starfall');
+            starFall.style.left = `${Math.random() * 100}vw`;
+            starFall.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            starFall.style.opacity = Math.random();
+            starFall.style.width = `${Math.random() * 20 + 10}px`;
+            starFall.style.height = starFall.style.width;
+            starFall.style.backgroundImage = starImages[Math.floor(Math.random() * starImages.length)];
+            starFallContainer.appendChild(starFall);
+        }
+    }
     
     // Initialize the game
     function init() {
         createCardPairs();
         createBoard();
+        createStarFall();
+        // analyzeAudio(bgMusic);
     }
     
     document.addEventListener("click", playMusic, {once: true});
