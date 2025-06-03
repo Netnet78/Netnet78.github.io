@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Popup that ask the user to play
     const startup_popup = document.getElementById('startup-popup');
     const playButton = document.getElementById('playButton');
+    const changeGameButton = document.getElementById('changeGameButton');
     let userName = '';
 
     playButton.addEventListener('click', () => {
@@ -251,6 +252,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     document.addEventListener("click", playMusic, {once: true});
+
+    changeGameButton.addEventListener("click", ()=> {
+        window.open('../../.', '_self');
+    })
     
     init();
 });
