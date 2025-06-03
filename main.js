@@ -14,6 +14,7 @@ const SCALE = 1.5;
 // Load audio
 const bgMusic = document.getElementById("bgMusic");
 const secondBgMusic = document.getElementById("secondBgMusic");
+const thirdBgMusic = document.getElementById("thirdBgMusic");
 const eatSound = new Audio('./sounds/yummy.mp3');
 const damagedSound = new Audio('./sounds/damaged.mp3');
 const gameOverSound = new Audio('./sounds/game_over.wav');
@@ -113,6 +114,23 @@ function updateItems() {
     items = items.filter(item => item.y < canvas.height);
 }
 
+let spawnRate = 800; // Initial spawn rate in ms
+function spawnItemLoop() {
+    if (gameOver) return;
+
+    spawnItem();
+
+    if (score >= 1000) {
+        spawnRate = 200; // very fast
+    } else if (score >= 400) {
+        spawnRate = 400; // faster
+    } else {
+        spawnRate = 800; // default
+    }
+
+    setTimeout(spawnItemLoop, spawnRate);
+}
+
 function drawScore() {
     context.fillStyle = "#ffffff";
     context.font = "20px Kantumruy Pro, sans-serif";
@@ -144,7 +162,7 @@ function gameLoop() {
         player.danger += 1;
     }
 
-    if (score >= 400) {
+    if (score >= 400 && score < 1000) {
         bgMusic.pause();
 
         setTimeout(() => {
@@ -153,8 +171,20 @@ function gameLoop() {
         }, 500);
     }
 
+    if (score >= 1000) {
+        secondBgMusic.pause();
+        bgMusic.pause();
+
+        setTimeout(() => {
+            thirdBgMusic.play().catch(error => {
+                console.warn("Error playing the third track: ", error);
+            })
+        }, 500);
+    }
+
     // If the user has 0 lives or not
     if (player.lives <= 0) {
+        thirdBgMusic.volume = 0.25;
         secondBgMusic.volume = 0.25;
         bgMusic.volume = 0.25;
 
@@ -210,7 +240,7 @@ playButton.addEventListener('click', () => {
         console.warn("BG Music was blocked: ", error);
     });
 
-    setInterval(spawnItem, 800);
+    spawnItemLoop();
     gameLoop();
 });
 
