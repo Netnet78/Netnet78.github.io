@@ -421,7 +421,7 @@ giftBox.addEventListener('click', () => {
 });
 
 playButton.addEventListener("click", () => {
-  window.open("");
+  window.open("./Games/", "_self");
 });
 
 
