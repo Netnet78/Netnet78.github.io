@@ -6,7 +6,7 @@ const canvasContainer = document.querySelector(".canvas-container");
 const gameOverContainer = document.getElementById("gameOverContainer");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const finalScore = document.getElementById("finalScore");
-const changeButton = document.getElementById("changeButton");
+const changeButton = document.querySelectorAll("#changeButton");
 
 // GAME SCALE
 const SCALE = 1.5;
@@ -245,6 +245,10 @@ playButton.addEventListener('click', () => {
 });
 
 // Navigate to the default window
-changeButton.addEventListener('click', () => {
+changeButton[0].addEventListener('click', () => {
+    window.open("./card_game","_self");
+})
+
+changeButton[1].addEventListener('click', () => {
     window.open("./card_game","_self");
 })

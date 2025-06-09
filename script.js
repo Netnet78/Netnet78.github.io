@@ -57,15 +57,15 @@ const notLyhourMessages = [
   () => ".......",
   () => "Okay...",
   () => "មិនអីទេ នរណាគេក៏អាចចូលរួមពិធីខួបកំណើតនេះបានដែរ",
-  () => "ឥឡូវនេះកុំឱ្យខាតពេលយូរ ខ្ញុំមានកាដូពិសេសមួយសម្រាប់មិត្តភក្តិរបស់ខ្ញុំដែលមានឈ្មោះថា {ឡេង លីហួរ} 🎊✨"
+  () => "ឥឡូវនេះកុំឱ្យខាតពេលយូរ ខ្ញុំមានកាដូពិសេសមួយសម្រាប់មិត្តភក្តិរបស់ខ្ញុំដែលមានឈ្មោះថា... 🎊✨"
 ];
 
 const isLyhourMessages = [
-  "តើគាត់ជា លីហួរមែនទេ?",
+  "តើគាត់ជា *មនុស្សម្នាក់នឹង*មែនទេ?",
   "...!",
   "hmmm...",
   "......",
-  "ប្រសិនបើអ្នកជាលីហួរមែន ប្រាប់ខ្ញុំពីអ្វីដែលមានតែលីហួរទេដែលអាចដឹង",
+  "ប្រសិនបើអ្នកជា*មនុស្សម្នាក់នឹង*មែន ប្រាប់ខ្ញុំពីអ្វីដែលមានតែ*មនុស្សម្នាក់នឹង*ទេដែលអាចដឹង",
 ];
 
 const notHerMessages = [
@@ -78,9 +78,9 @@ const notHerMessages = [
 const actuallyHerMessages = [
   "...",
   "...!",
-  "Hi! លីហួរ",
+  "Hi!",
   "ខ្ញុំមានកាដូពិសេសមួយ នៅក្នុងថ្ងៃខួបកំណើតនេះ",
-  "ត្រៀមខ្លួនហើយឬនៅលីហួរ?",
+  "ត្រៀមខ្លួនហើយឬនៅ?",
 ];
 
 let typeDelay = 80;
@@ -148,7 +148,11 @@ function isLyhourResponse() {
 
   isLyhourButtonClicked = true;
 
+  // Disable the input for a few seconds
   nextButton.classList.add("disabled");
+  inputBox.classList.add("disabled");
+  inputBox.value = "សូមកុំទាន់សរសេរ! ស្ដាប់ខ្ញុំនិយាយសិន!";
+
   isNotHerButton.classList.add("opacity-zero-transition");
   setTimeout(() => { isHerButton.classList.add("move-to-right"); }, 1000);
   setTimeout(() => {
@@ -172,6 +176,9 @@ function isLyhourResponse() {
     playMessages(isLyhourMessages, 0, () => {
       // Set up a separate handler for "Next" when confirming "isHer"
       nextButton.classList.remove("disabled");
+      inputBox.classList.remove("disabled");
+      inputBox.value = "";
+
       nextButton.removeEventListener("click", nextButtonHandlerNotHer);
       nextButton.addEventListener("click", nextButtonHandlerIsHer);
     });
@@ -369,7 +376,6 @@ giftBox.addEventListener('click', () => {
     if (shakes >= shakesNeeded) {
 
       backgroundMusic.volume = 0.15;
-      applauseSound.play();
       
       giftBox.style.display = 'none'; // or fade it out
 
@@ -377,7 +383,7 @@ giftBox.addEventListener('click', () => {
 
       message.classList.remove('hidden');
       message.classList.add('visible');
-      typeText(message, "🎉 Happy Birthday, លីហួរ! 🥳", typeDelay,
+      typeText(message, "🎉 Happy Birthday, to you! 🥳", typeDelay,
         () => {
           setTimeout(()=>{
             backgroundMusic.volume = 0.25;
@@ -414,6 +420,7 @@ giftBox.addEventListener('click', () => {
       giftItem.style.display = "block";
       setTimeout(() => {
         giftItem.style.opacity = '1';
+        applauseSound.play();
       }, 1000);
       // Optional: play a sound or show a celebration
     }
