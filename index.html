@@ -1,36 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>កាដូសម្រាប់ខួបកំណើតពិសេស</title>
-  <link rel="stylesheet" href="present.css" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/x-icon" href="./images/presents/gift-box.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet"/>
+    <title>My Website</title>
 </head>
 <body>
-    <video id="fullscreenVideo" src="./videos/creepy_jumpscare.mp4" class="hidden-video" playsinline></video>
-
-    <div class="greeting-container">
-        <h1 id="greetingText" class="floating-text">Click me!!!</h1>
-        <div class="buttons-container">
-            <button id="isHer">ខ្ញុំជា *មនុស្សម្នាក់នឹង*</button>
-            <button id="isNotHer">ខ្ញុំជាអ្នកផ្សេងដែលចង់ចូលរួម</button>
-        </div>
-        <div class="input-container">
-            <input type="text" id="nameInput" name="nameInput" placeholder="សូមបំពេញព័ត៌មាននៅទីនេះ"/>
-            <button id="nextButton">⏵</button>
-        </div>
-    </div>
-    <div class="present-container">
-        <h1 id="instructionMessage">🎁 ចុចលើប្រអប់កាដូខាងក្រោមនេះ</h1>
-        <img id="giftBox" src="./images/presents/gift-box.png" alt="Gift" />
-        <img id="giftItem" src="./images/cake.png" alt="cake"/>
-        <div id="message" class="hidden"></div>
-        <button class="play-button" id="playButton">លេងហ្គេម?</button>
+    <div class="content-container">
+        <h1 id="askToPlayMessage"></h1>
+        <button id="playButton">Play</button>
     </div>
     <script src="script.js"></script>
-    <!-- Confetti script -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 </html>

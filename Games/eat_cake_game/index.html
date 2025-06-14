@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ហ្កេមចាប់នំខេក || Cake Catcher</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/favicon.png" type="image/x-icon"/>
+</head>
+<body>
+    <div class="star-background"></div>
+
+    <!-- Welcome message box section -->
+    <main class="container" id="container">
+        <h1>🎂 ហ្គេមចាប់នំខេក || Cake Catcher 🎂</h1>
+        <p class="subtitle">ថ្ងៃនេះជាថ្ងៃខួបកំណើតរបស់ "សារ៉េត ស្រីនិច្ច" ហើយនិង "រឿន វីរៈ" ដូច្នេះហើយគ្នាយើងត្រូវដណ្ដើមគ្នាញ៉ាំនំឱ្យបានច្រើនជាងគេ</p>
+        <p class="subtitle">គោលដៅរបស់យើងគឺ ត្រូវយកនំឱ្យបានច្រើនជាងគេ ហើយត្រូវជៀសវៀងពីគ្រាប់បែក និងអាចម៍ដែលធ្លាក់មក ព្រោះកុំឱ្យអ្នកផ្សេងមកដណ្ដើមរបស់យើង!</p>
+        <p class="subtitle">កាលណាហូបបានកាន់តែច្រើនកាន់តែយូរ ពិន្ទុនឹងកាន់តែខ្ពស់ដូច្នេះហើយព្យាយាមនៅឱ្យបានយូរ ហើយសាកល្បងធ្វើម្ដេចឱ្យបានយ៉ាងហោចណាស់ 400 ពិន្ទុដែរ</p>
+        <p class="subtitle">សូមជួបនូវសំណាងល្អ ក្នុងការដណ្ដើមយកនំក្នុងពិធីខួបកំណើតមួយនេះ!</p>
+        
+        <div class="game-preview">
+            <div class="item cake">🍰</div>
+            <div class="item not-cake">💣</div>
+            <div class="item not-cake">💩</div>
+            <div class="item cake">🎂</div>
+        </div>
+
+        <button class="play-button" id="playButton">ចាប់ផ្ដើមលេង 🎮</button>
+        <button class="play-button" id="changeButton">ប្ដូរល្បែង</button>
+    </main>
+
+    <!-- Main game section -->
+    <div class="canvas-container">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </div>
+
+    <!-- Game over section -->
+    <div class="game-over-container" id="gameOverContainer" style="display: none;">
+        <h1>Game Over</h1>
+        <p class="subtitle" id="gameOverMessage">ចានរបស់អ្នកត្រូវបានគេបោះគ្រាប់បែក 💥 🍽️</p>
+        <p class="subtitle">សូមព្យាយាម្ដងទៀតនៅពេលក្រោយ</p>
+        <p class="subtitle">Final Score: <span id="finalScore">0</span></p>
+        <button class="play-button" onclick="location.reload()">លេងម្ដងទៀត</button>
+        <button class="change-button play-button" id="changeButton">ដូរល្បែង</button>
+    </div>
+
+    <audio id="bgMusic" src="./sounds/sf.mp3"></audio>
+    <audio id="secondBgMusic" src="./sounds/fhd.mp3"></audio>
+    <audio id="thirdBgMusic" src="./sounds/twr.m4a"></audio>
+    <script src="main.js"></script>
+</body>
+</html>
