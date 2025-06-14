@@ -13,8 +13,9 @@ const instructionMessage = document.getElementById("instructionMessage");
 const giftItem = document.getElementById("giftItem");
 const playButton = document.getElementById("playButton");
 
-// Birthday person's name
+// Birthday person's name and passwords
 const birthdayPerson = "វុទ្ធី";
+const passwords = ["battambang"];
 
 // Load sounds
 const textSound = new Audio("./audio/text_sound.mp3");
@@ -312,7 +313,17 @@ function nextButtonHandlerIsHer() {
   greetingText.style.top = "50%";
 
   setTimeout(() => {
-    if (inputValue != "04914321") {
+    let isValid = false;
+    for (i=0;i<passwords.length;i++) {
+      if (inputValue == passwords[i]) {
+        isValid = true;
+        console.log("Password Check: True");
+        break;
+      }
+      console.log("Access denied");
+    }
+
+    if (isValid == false) {
       scaryBackgroundMusic.volume = 0;
       scaryBackgroundMusic.pause();
       playMessages(notHerMessages, 0, () => {
