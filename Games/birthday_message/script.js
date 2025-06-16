@@ -15,7 +15,7 @@ const playButton = document.getElementById("playButton");
 
 // Birthday person's name and passwords
 const birthdayPerson = "ផាន់នី";
-const passwords = ["15/5/2025"];
+const passwords = ["15/6/2025"];
 
 // Load sounds
 const textSound = new Audio("./audio/text_sound.mp3");
