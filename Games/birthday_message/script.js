@@ -14,8 +14,8 @@ const giftItem = document.getElementById("giftItem");
 const playButton = document.getElementById("playButton");
 
 // Birthday person's name and passwords
-const birthdayPerson = "វុទ្ធី";
-const passwords = ["battambang"];
+const birthdayPerson = "ផាន់នី";
+const passwords = ["15/5/2025"];
 
 // Load sounds
 const textSound = new Audio("./audio/text_sound.mp3");
