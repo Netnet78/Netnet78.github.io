@@ -27,7 +27,7 @@ const boomSound = new Audio("./audio/boom.mp3");
 
 // Sounds configuration
 scaryBackgroundMusic.loop = true;
-scaryBackgroundMusic.volume = 0.45
+scaryBackgroundMusic.volume = 0.45;
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.45;
 
@@ -38,7 +38,7 @@ function playJumpscare() {
   video.classList.add("visible-video");
   video.classList.remove("hidden-video");
 
-  video.play().catch(err => {
+  video.play().catch((err) => {
     console.error("Video failed to play:", err);
   });
 }
@@ -49,42 +49,47 @@ let username = "";
 const messages = [
   "👋 Hello ជម្រាបសួរ",
   "សូមស្វាគមន៌មកកាន់ Website របស់ខ្ញុំ",
-  "ខ្ញុំបានរៀបចំគេហទំព័រមួយនេះឡើងដើម្បីចូលរួមខួបកំណើតរបស់មនុស្សម្នាក់",
+  "ខ្ញុំបានរៀបចំគេហទំព័រមួយនេះឡើងដើម្បីមនុស្សម្នាក់",
   "ខ្ញុំប្រាកដថាអ្នកស្គាល់ខ្ញុំថាជានរណាហើយ ប៉ុន្តែខ្ញុំមិនប្រាកដថាស្គាល់អ្នកទេ",
   "ខ្ញុំចង់ដឹងឈ្មោះរបស់អ្នក តើអ្នកជានរណាគេទៅ?",
 ];
 
 const notLyhourMessages = [
-  () => `${username} ?`,
-  () => "hmm....",
-  () => `${username} តើយើងស្គាល់គ្នាដែរឬទេ?`,
-  () => ".......",
-  () => "Okay...",
-  () => "មិនអីទេ នរណាគេក៏អាចចូលរួមពិធីខួបកំណើតនេះបានដែរ",
-  () => "ឥឡូវនេះកុំឱ្យខាតពេលយូរ ខ្ញុំមានកាដូពិសេសមួយសម្រាប់មិត្តភក្តិរបស់ខ្ញុំដែលមានឈ្មោះថា... 🎊✨",
-  () => `${birthdayPerson}`
+  "...",
+  "...!",
+  () => `Hello, ${username}`,
+  "តើកំពុងតែមានអារម្មណ៍យ៉ាងណាដែរ?",
+  "...",
+  "ឥឡូវនេះ ខ្ញុំចង់សួរថា...",
+  () => `ត្រៀមខ្លួនហើយឬនៅ, ${username}?`,
 ];
+// const notLyhourMessages = [
+//   () => `${username} ?`,
+//   () => "hmm....",
+//   () => `${username} តើយើងស្គាល់គ្នាដែរឬទេ?`,
+//   () => ".......",
+//   () => "Okay...",
+//   () => "មិនអីទេ នរណាគេក៏អាចចូលរួមពិធីខួបកំណើតនេះបានដែរ",
+//   () =>
+//     "ឥឡូវនេះកុំឱ្យខាតពេលយូរ ខ្ញុំមានកាដូពិសេសមួយសម្រាប់មិត្តភក្តិរបស់ខ្ញុំដែលមានឈ្មោះថា... 🎊✨",
+//   () => `${birthdayPerson}`,
+// ];
 
 const isLyhourMessages = [
-  "តើគាត់ជា *មនុស្សម្នាក់នឹង*មែនទេ?",
+  "តើគាត់ជា *មនុស្សម្នាក់នឹង* មែនទេ?",
   "...!",
   "hmmm...",
   "......",
   "ប្រសិនបើអ្នកជា*មនុស្សម្នាក់នឹង*មែន ប្រាប់ខ្ញុំពីអ្វីដែលមានតែ*មនុស្សម្នាក់នឹង*ទេដែលអាចដឹង",
 ];
 
-const notHerMessages = [
-  "...",
-  "......",
-  "..........",
-  "ចម្លើយមិនត្រឹមត្រូវ",
-];
+const notHerMessages = ["...", "......", "..........", "ចម្លើយមិនត្រឹមត្រូវ"];
 
 const actuallyHerMessages = [
   "...",
   "...!",
   () => `Hello, ${birthdayPerson}`,
-  "ខ្ញុំមានកាដូពិសេសមួយ នៅក្នុងថ្ងៃខួបកំណើតនេះ",
+  "ខ្ញុំចង់សួរថា...",
   () => `ត្រៀមខ្លួនហើយឬនៅ, ${birthdayPerson}?`,
 ];
 
@@ -98,18 +103,20 @@ function showGreetingMessages() {
     greetingText.classList.add("float-up");
     greetingText.style.top = "40%";
     buttonsContainer.style.display = "flex";
-    setTimeout(() => {isHerButton.classList.add("opacity-one-transition");}, 1000)
-    setTimeout(() => {isNotHerButton.classList.add("opacity-one-transition");}, 2000)
+    setTimeout(() => {
+      isHerButton.classList.add("opacity-one-transition");
+    }, 1000);
+    setTimeout(() => {
+      isNotHerButton.classList.add("opacity-one-transition");
+    }, 2000);
     return;
   }
 
-
   typeText(greetingText, messages[currentMessage], typeDelay, () => {
-      currentMessage++;
-      setTimeout(showGreetingMessages, callbackDelay); // short delay before next message
+    currentMessage++;
+    setTimeout(showGreetingMessages, callbackDelay); // short delay before next message
   });
 }
-
 
 // Messages shown if the user pressed the "isHer" button
 let currentLyhourMessage = 0;
@@ -117,16 +124,19 @@ function showLyhourMessages() {
   playMessages(isLyhourMessages);
 }
 
-
 // This function will trigger if the user press on "isNotHer" button
 let notLyhourButtonClicked = false;
 function notLyhourResponse() {
-  if (notLyhourButtonClicked) {return;}
+  if (notLyhourButtonClicked) {
+    return;
+  }
 
   notLyhourButtonClicked = true;
 
   isHerButton.classList.add("opacity-zero-transition");
-  setTimeout(() => {isNotHerButton.classList.add("move-to-left");}, 1000);
+  setTimeout(() => {
+    isNotHerButton.classList.add("move-to-left");
+  }, 1000);
   setTimeout(() => {
     isHerButton.style.opacity = "0";
     isHerButton.classList.add("disable-mouse-events");
@@ -137,19 +147,20 @@ function notLyhourResponse() {
     isNotHerButton.style.boxShadow = "0 0 12px rgba(255, 0, 255, 0.5)";
     isNotHerButton.style.cursor = "default";
   }, 2000);
-  setTimeout (() => {
+  setTimeout(() => {
     inputContainer.style.display = "flex";
   }, 2500);
-  setTimeout (() => {
+  setTimeout(() => {
     inputContainer.style.opacity = "1";
-  },2600);
+  }, 2600);
 }
-
 
 // This function will trigger if the user press on "isHer" button
 let isLyhourButtonClicked = false;
 function isLyhourResponse() {
-  if (isLyhourButtonClicked) {return;}
+  if (isLyhourButtonClicked) {
+    return;
+  }
 
   isLyhourButtonClicked = true;
 
@@ -159,7 +170,9 @@ function isLyhourResponse() {
   inputBox.value = "សូមកុំទាន់សរសេរ! ស្ដាប់ខ្ញុំនិយាយសិន!";
 
   isNotHerButton.classList.add("opacity-zero-transition");
-  setTimeout(() => { isHerButton.classList.add("move-to-right"); }, 1000);
+  setTimeout(() => {
+    isHerButton.classList.add("move-to-right");
+  }, 1000);
   setTimeout(() => {
     isNotHerButton.style.opacity = "0";
     isNotHerButton.classList.add("disable-mouse-events");
@@ -190,13 +203,11 @@ function isLyhourResponse() {
   }, 3000);
 }
 
-
-
 // This function will trigger after the notLyhourResponse
 // Basically after they confirm their name
 let currentNotLyhourMessage = 0;
 function showNotLyhourMessage() {
-  playMessages(notLyhourMessages, 0 , () => {
+  playMessages(notLyhourMessages, 0, () => {
     setTimeout(() => {
       greetingContainer.classList.add("opacity-zero-transition");
       greetingContainer.style.display = "none";
@@ -205,7 +216,7 @@ function showNotLyhourMessage() {
         scaryBackgroundMusic.pause();
         backgroundMusic.play();
         presentContainer.classList.add("opacity-one-transition");
-      },1000)
+      }, 1000);
     }, 1000);
   });
 }
@@ -217,9 +228,8 @@ function playMessages(messages, index = 0, onComplete = null) {
     return;
   }
 
-  const message = typeof messages[index] === 'function'
-    ? messages[index]()
-    : messages[index];
+  const message =
+    typeof messages[index] === "function" ? messages[index]() : messages[index];
 
   typeText(greetingText, message, typeDelay, () => {
     setTimeout(() => {
@@ -228,29 +238,25 @@ function playMessages(messages, index = 0, onComplete = null) {
   });
 }
 
-
 // Typing animation
 function typeText(element, text, delay = 100, callback = null) {
-    element.textContent = "";
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, delay);
-        } else if (callback) {
-            callback();
-        }
+  element.textContent = "";
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, delay);
+    } else if (callback) {
+      callback();
     }
-    type();
+  }
+  type();
 }
-
 
 isHerButton.addEventListener("click", isLyhourResponse);
 
-
 isNotHerButton.addEventListener("click", notLyhourResponse);
-
 
 // Next button function for handling of they already pressed isNotHer
 function nextButtonHandlerNotHer() {
@@ -284,7 +290,6 @@ function nextButtonHandlerNotHer() {
   }, 2500);
 }
 
-
 // Next button function for handling of they already pressed isHer
 function nextButtonHandlerIsHer() {
   if (inputBox.value == "") {
@@ -314,7 +319,7 @@ function nextButtonHandlerIsHer() {
 
   setTimeout(() => {
     let isValid = false;
-    for (i=0;i<passwords.length;i++) {
+    for (i = 0; i < passwords.length; i++) {
       if (inputValue == passwords[i]) {
         isValid = true;
         console.log("Password Check: True");
@@ -335,34 +340,35 @@ function nextButtonHandlerIsHer() {
       });
       return;
     }
-    playMessages(actuallyHerMessages, 0, onComplete = () => {
-      setTimeout(() => {
-        scaryBackgroundMusic.pause();
-        backgroundMusic.play();
-
-        greetingContainer.classList.add("opacity-zero-transition");
-        greetingContainer.style.display = "none";
-        presentContainer.style.display = "block";
+    playMessages(
+      actuallyHerMessages,
+      0,
+      (onComplete = () => {
         setTimeout(() => {
-          presentContainer.classList.add("opacity-one-transition");
-        },1000)
-      }, 1000);
-    });
+          scaryBackgroundMusic.pause();
+          backgroundMusic.play();
+
+          greetingContainer.classList.add("opacity-zero-transition");
+          greetingContainer.style.display = "none";
+          presentContainer.style.display = "block";
+          setTimeout(() => {
+            presentContainer.classList.add("opacity-one-transition");
+          }, 1000);
+        }, 1000);
+      }),
+    );
   }, 2500);
 }
 
-
 let nextButtonClicked = false;
 nextButton.addEventListener("click", nextButtonHandlerNotHer);
-
-
 
 /* Gift box section (Main section) */
 let shakes = 0;
 const shakesNeeded = 3;
 let isShaking = false;
 
-giftBox.addEventListener('click', () => {
+giftBox.addEventListener("click", () => {
   // ប្រសិនបើកាដូកំពុងតែបើក នោះវានឹងចាកចេញពី function
   // ដើម្បីការពារកុំឱ្យអ្នកប្រើប្រាស់ចុចលើវាច្រើនដងពេក
   if (isShaking) return;
@@ -372,7 +378,7 @@ giftBox.addEventListener('click', () => {
   confetti({
     particleCount: 100,
     spread: 70,
-    origin: {y:0.5}
+    origin: { y: 0.5 },
   });
 
   if (shakes >= 2) {
@@ -380,74 +386,75 @@ giftBox.addEventListener('click', () => {
   } else {
     punchSound.play();
   }
-  
-  giftBox.classList.add('shake');
+
+  giftBox.classList.add("shake");
 
   setTimeout(() => {
-    giftBox.classList.remove('shake');
+    giftBox.classList.remove("shake");
     shakes++;
     isShaking = false;
 
     if (shakes >= shakesNeeded) {
-
       backgroundMusic.volume = 0.15;
-      
-      giftBox.style.display = 'none'; // or fade it out
+
+      giftBox.style.display = "none"; // or fade it out
 
       instructionMessage.classList.add("hidden");
 
-      message.classList.remove('hidden');
-      message.classList.add('visible');
-      typeText(message, "🎉 Happy Birthday, to you! 🥳", typeDelay,
-        () => {
-          setTimeout(()=>{
-            backgroundMusic.volume = 0.25;
-            typeText(message, "សុំហាមាត់ បន្តិចបានឬអត់?", typeDelay,
-              () => {
-                setTimeout(()=>{
-                  typeText(message, "ហាមិនបានទេ? Okay...", typeDelay,
+      message.classList.remove("hidden");
+      message.classList.add("visible");
+      typeText(message, "🎉 Happy Birthday, to you! 🥳", typeDelay, () => {
+        setTimeout(() => {
+          backgroundMusic.volume = 0.25;
+          typeText(message, "សុំហាមាត់ បន្តិចបានឬអត់?", typeDelay, () => {
+            setTimeout(() => {
+              typeText(message, "ហាមិនបានទេ? Okay...", typeDelay, () => {
+                setTimeout(() => {
+                  typeText(
+                    message,
+                    "សូមជូនពរឱ្យក្ដីស្រមៃនិងក្ដីសុបិន្តឱ្យក្លាយជាការពិត!",
+                    typeDelay,
                     () => {
-                      setTimeout(()=> {
-                        typeText(message, "សូមជូនពរឱ្យក្ដីស្រមៃនិងក្ដីសុបិន្តឱ្យក្លាយជាការពិត!", typeDelay,
+                      setTimeout(() => {
+                        typeText(
+                          message,
+                          "និងសូមឱ្យជួបរឿងល្អៗនិងមានអ្នកស្រឡាញ់ច្រើនៗ!",
+                          typeDelay,
                           () => {
-                            setTimeout(() => {
-                              typeText(message, "និងសូមឱ្យជួបរឿងល្អៗនិងមានអ្នកស្រឡាញ់ច្រើនៗ!", typeDelay, 
-                                () => {
-                                  setTimeout(() => {
-                                    playButton.style.display = "block";
-                                    playButton.style.opacity = "1";
-                                  }, 1000+ 1000+ 1000+ 1000);
-                                }
-                              );
-                            }, 1000+ 1000);
-                          }
+                            setTimeout(
+                              () => {
+                                playButton.style.display = "block";
+                                playButton.style.opacity = "1";
+                              },
+                              1000 + 1000 + 1000 + 1000,
+                            );
+                          },
                         );
-                      },1000+ 1000);
-                    }
+                      }, 1000 + 1000);
+                    },
                   );
-                },1000+ 1000);
-              }
-            );
-          }, 1000+ 1000);
-        }
-      );
+                }, 1000 + 1000);
+              });
+            }, 1000 + 1000);
+          });
+        }, 1000 + 1000);
+      });
 
       giftItem.style.display = "block";
       setTimeout(() => {
-        giftItem.style.opacity = '1';
+        giftItem.style.opacity = "1";
         applauseSound.play();
       }, 1000);
       // Optional: play a sound or show a celebration
     }
-  },1000); // Match animation duration
+  }, 1000); // Match animation duration
 });
 
 playButton.addEventListener("click", () => {
   window.open("../eat_cake_game/", "_self");
 });
 
-
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
   setTimeout(() => {
     scaryBackgroundMusic.play();
     setTimeout(() => {
