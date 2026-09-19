@@ -1,0 +1,271 @@
+---
+// Interactive particle network background for the entire page
+---
+
+<div
+  id="network-bg-container"
+  class="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+  aria-hidden="true"
+  transition:persist="network-bg"
+>
+  <canvas id="network-canvas" class="w-full h-full block"></canvas>
+</div>
+
+<script>
+  interface Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    radius: number;
+    baseRadius: number;
+    colorType: number; // 0 for primary, 1 for secondary
+  }
+
+  function setupNetworkBackground() {
+    const canvas = document.getElementById(
+      "network-canvas",
+    ) as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = 0;
+    let height = 0;
+    let particles: Particle[] = [];
+
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      active: false,
+      radius: 170,
+    };
+
+    function isDark(): boolean {
+      return document.documentElement.classList.contains("dark");
+    }
+
+    function resize() {
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+
+      ctx?.resetTransform();
+      ctx?.scale(dpr, dpr);
+
+      // Reinitialize particles with density proportional to screen area
+      const count = Math.min(
+        Math.max(Math.floor((width * height) / 15000), 35),
+        95,
+      );
+
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        const radius = Math.random() * 1.5 + 1.2;
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: (Math.random() - 0.5) * 0.7,
+          radius,
+          baseRadius: radius,
+          colorType: Math.random() > 0.4 ? 0 : 1,
+        });
+      }
+    }
+
+    function onMouseMove(e: MouseEvent) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    }
+
+    function onMouseLeave() {
+      mouse.active = false;
+      mouse.x = -1000;
+      mouse.y = -1000;
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+        mouse.active = true;
+      }
+    }
+
+    function onTouchEnd() {
+      mouse.active = false;
+      mouse.x = -1000;
+      mouse.y = -1000;
+    }
+
+    function draw() {
+      if (!ctx) return;
+
+      ctx.clearRect(0, 0, width, height);
+
+      const darkMode = isDark();
+      // Theme colors matching portfolio theme tokens
+      const primaryRgb = darkMode ? "168, 85, 247" : "124, 58, 237"; // Purple / Violet
+      const secondaryRgb = darkMode ? "56, 189, 248" : "14, 165, 233"; // Cyan / Sky
+      const maxConnectDistance = 120;
+      const connectDistSq = maxConnectDistance * maxConnectDistance;
+
+      // 1. Update and draw particles
+      const len = particles.length;
+      for (let i = 0; i < len; i++) {
+        const p = particles[i];
+
+        // Movement
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce on boundaries
+        if (p.x < 0) {
+          p.x = 0;
+          p.vx = -p.vx;
+        } else if (p.x > width) {
+          p.x = width;
+          p.vx = -p.vx;
+        }
+
+        if (p.y < 0) {
+          p.y = 0;
+          p.vy = -p.vy;
+        } else if (p.y > height) {
+          p.y = height;
+          p.vy = -p.vy;
+        }
+
+        // Mouse gentle repulsion & particle expansion
+        if (mouse.active) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const distSq = dx * dx + dy * dy;
+          const mouseRadiusSq = mouse.radius * mouse.radius;
+
+          if (distSq < mouseRadiusSq && distSq > 0) {
+            const dist = Math.sqrt(distSq);
+            const force = (1 - dist / mouse.radius) * 0.9;
+            p.x -= (dx / dist) * force;
+            p.y -= (dy / dist) * force;
+            p.radius = p.baseRadius + force * 1.5;
+          } else {
+            p.radius = p.baseRadius;
+          }
+        } else {
+          p.radius = p.baseRadius;
+        }
+
+        // Draw particle dot
+        const color = p.colorType === 0 ? primaryRgb : secondaryRgb;
+        const alpha = darkMode ? 0.65 : 0.45;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, ${alpha})`;
+        ctx.fill();
+
+        // 2. Connect inter-particle lines
+        for (let j = i + 1; j < len; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < connectDistSq) {
+            const dist = Math.sqrt(distSq);
+            const ratio = 1 - dist / maxConnectDistance;
+            const lineAlpha = ratio * (darkMode ? 0.22 : 0.14);
+
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(${p.colorType === 0 ? primaryRgb : secondaryRgb}, ${lineAlpha})`;
+            ctx.lineWidth = 0.9;
+            ctx.stroke();
+          }
+        }
+
+        // 3. Connect to mouse cursor
+        if (mouse.active) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const distSq = dx * dx + dy * dy;
+          const mouseRadiusSq = mouse.radius * mouse.radius;
+
+          if (distSq < mouseRadiusSq) {
+            const dist = Math.sqrt(distSq);
+            const ratio = 1 - dist / mouse.radius;
+            const lineAlpha = ratio * (darkMode ? 0.45 : 0.3);
+
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(${primaryRgb}, ${lineAlpha})`;
+            ctx.lineWidth = 1.1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    }
+
+    // Attach listeners
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseleave", onMouseLeave, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+
+    // Handle visibility changes to preserve CPU/battery
+    function onVisibilityChange() {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(draw);
+      }
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    // Initial setup
+    resize();
+    animationFrameId = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }
+
+  // Handle initialization with Astro View Transitions
+  let cleanup: (() => void) | undefined;
+
+  function init() {
+    if (cleanup) {
+      cleanup();
+    }
+    cleanup = setupNetworkBackground();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  document.addEventListener("astro:page-load", init);
+</script>

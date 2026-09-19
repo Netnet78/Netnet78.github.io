@@ -1,0 +1,300 @@
+---
+import { profile } from "@/data/cv";
+---
+
+<!-- Contact Section -->
+<section id="contact" class="py-16 md:py-24 reveal">
+  <div class="space-y-12">
+    <!-- Section Header -->
+    <div class="flex flex-col items-start gap-3">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-primary/20 bg-primary/5 text-xs font-semibold text-primary uppercase tracking-wider"
+      >
+        <i class="fa-regular fa-paper-plane text-xs"></i>
+        <span>Get in Touch</span>
+      </div>
+      <h2
+        class="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground"
+      >
+        Let's Connect & <span
+          class="bg-linear-to-r from-primary via-secondary to-primary bg-clip-text text-transparent"
+          >Collaborate</span
+        >
+      </h2>
+      <p
+        class="text-muted-foreground text-base sm:text-lg max-w-2xl leading-relaxed"
+      >
+        Whether you have a software development project, educational
+        opportunity, or technical discussion in mind, my inbox is always open.
+      </p>
+    </div>
+
+    <!-- Contact Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- Left Column: Direct Details & References -->
+      <div class="lg:col-span-5 space-y-6">
+        <!-- Availability Card -->
+        <div
+          class="rounded-2xl border border-border/80 bg-card/60 backdrop-blur-md p-6 space-y-3 shadow-sm"
+        >
+          <div
+            class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+            ></span>
+            <span>Current Status</span>
+          </div>
+          <h3 class="text-lg font-bold text-foreground">
+            Available for New Projects
+          </h3>
+          <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            I am open to desktop engineering, full-stack web development, and
+            educational mentorship roles.
+          </p>
+        </div>
+
+        <!-- Contact Channels List -->
+        <div
+          class="rounded-2xl border border-border/80 bg-card/60 backdrop-blur-md p-6 space-y-4 shadow-sm"
+        >
+          <h3
+            class="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+          >
+            Direct Channels
+          </h3>
+
+          <div class="space-y-3">
+            <!-- Email -->
+            <a
+              href={`mailto:${profile.email}`}
+              class="group flex items-center gap-3.5 p-3 rounded-xl border border-border/60 bg-muted/20 hover:border-primary/40 hover:bg-muted/40 transition-all"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform"
+              >
+                <i class="fa-regular fa-envelope text-sm"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs text-muted-foreground font-medium">
+                  Email
+                </div>
+                <div
+                  class="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors"
+                >
+                  {profile.email}
+                </div>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-primary opacity-60 transition-opacity"
+              ></i>
+            </a>
+
+            <!-- Phone -->
+            <a
+              href={`tel:${profile.phone.replace(/[^0-9+]/g, "")}`}
+              class="group flex items-center gap-3.5 p-3 rounded-xl border border-border/60 bg-muted/20 hover:border-primary/40 hover:bg-muted/40 transition-all"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-secondary/15 border border-secondary/25 flex items-center justify-center text-secondary shrink-0 group-hover:scale-105 transition-transform"
+              >
+                <i class="fa-solid fa-phone text-sm"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs text-muted-foreground font-medium">
+                  Phone
+                </div>
+                <div
+                  class="text-sm font-semibold text-foreground group-hover:text-secondary transition-colors"
+                >
+                  {profile.phone}
+                </div>
+              </div>
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-secondary opacity-60 transition-opacity"
+              ></i>
+            </a>
+
+            <!-- Location -->
+            <div
+              class="flex items-center gap-3.5 p-3 rounded-xl border border-border/60 bg-muted/20"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0"
+              >
+                <i class="fa-solid fa-location-dot text-sm"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs text-muted-foreground font-medium">
+                  Location
+                </div>
+                <div class="text-sm font-semibold text-foreground truncate">
+                  {profile.location}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic References Card -->
+        {
+          profile.references && profile.references.length > 0 && (
+            <div class="rounded-2xl border border-border/80 bg-card/60 backdrop-blur-md p-6 space-y-3 shadow-sm">
+              <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+                <span>Academic References</span>
+                <i class="fa-solid fa-certificate text-primary text-xs" />
+              </h3>
+
+              <div class="divide-y divide-border/60">
+                {profile.references.map((ref) => (
+                  <div class="py-2.5 first:pt-1 last:pb-0 space-y-0.5">
+                    <div class="text-sm font-bold text-foreground">
+                      {ref.name}
+                    </div>
+                    <div class="text-xs text-muted-foreground">{ref.role}</div>
+                    <div class="text-[11px] text-primary/90 font-medium">
+                      Contact: {ref.phone}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Right Column: Interactive Message Form -->
+      <div class="lg:col-span-7">
+        <div
+          class="rounded-2xl border border-border/80 bg-card/60 backdrop-blur-md p-6 sm:p-8 shadow-sm space-y-6"
+        >
+          <div class="space-y-1.5">
+            <h3 class="text-xl font-bold text-foreground">
+              Send a Direct Message
+            </h3>
+            <p class="text-xs sm:text-sm text-muted-foreground">
+              Fill in your message details below to get in touch directly.
+            </p>
+          </div>
+
+          <form id="contact-form" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Name Input -->
+              <div class="space-y-1.5">
+                <label
+                  for="contact-name"
+                  class="text-xs font-medium text-foreground"
+                >
+                  Your Name <span class="text-primary">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  required
+                  placeholder="e.g. Soun Sary"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border/80 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                />
+              </div>
+
+              <!-- Email Input -->
+              <div class="space-y-1.5">
+                <label
+                  for="contact-email"
+                  class="text-xs font-medium text-foreground"
+                >
+                  Your Email <span class="text-primary">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  required
+                  placeholder="neth@example.com"
+                  class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border/80 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+                />
+              </div>
+            </div>
+
+            <!-- Subject Input -->
+            <div class="space-y-1.5">
+              <label
+                for="contact-subject"
+                class="text-xs font-medium text-foreground"
+              >
+                Subject
+              </label>
+              <input
+                type="text"
+                id="contact-subject"
+                placeholder="Software Development Inquiry / Project Collaboration"
+                class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border/80 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all"
+              />
+            </div>
+
+            <!-- Message Input -->
+            <div class="space-y-1.5">
+              <label
+                for="contact-message"
+                class="text-xs font-medium text-foreground"
+              >
+                Message <span class="text-primary">*</span>
+              </label>
+              <textarea
+                id="contact-message"
+                rows="5"
+                required
+                placeholder="Hello Sy Sophaneth, I would like to discuss..."
+                class="w-full px-3.5 py-2.5 text-sm rounded-lg border border-border/80 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all resize-y"
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-sm transition-all hover:bg-primary/90 cursor-pointer"
+            >
+              <span>Send Message</span>
+              <i class="fa-regular fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById(
+      "contact-form",
+    ) as HTMLFormElement | null;
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById(
+        "contact-name",
+      ) as HTMLInputElement | null;
+      const emailInput = document.getElementById(
+        "contact-email",
+      ) as HTMLInputElement | null;
+      const subjectInput = document.getElementById(
+        "contact-subject",
+      ) as HTMLInputElement | null;
+      const messageInput = document.getElementById(
+        "contact-message",
+      ) as HTMLTextAreaElement | null;
+
+      const name = nameInput?.value.trim() || "";
+      const email = emailInput?.value.trim() || "";
+      const subject = subjectInput?.value.trim() || `Inquiry from ${name}`;
+      const message = messageInput?.value.trim() || "";
+
+      const body = `Hello Sy Sophaneth,%0D%0A%0D%0A${encodeURIComponent(message)}%0D%0A%0D%0AFrom: ${encodeURIComponent(name)} (${encodeURIComponent(email)})`;
+      const mailtoUrl = `mailto:sysophaneth@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+      window.location.href = mailtoUrl;
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupContactForm);
+</script>

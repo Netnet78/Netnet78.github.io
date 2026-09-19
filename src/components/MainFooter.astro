@@ -1,0 +1,59 @@
+---
+import { profile } from "@/data/cv";
+
+const currentYear = new Date().getFullYear();
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Experiences", href: "/#experiences" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Education", href: "/#education" },
+  { label: "Contact", href: "/#contact" },
+];
+---
+
+<footer class="relative z-10 bg-background/60 backdrop-blur-md py-10 mt-auto">
+  <!-- Gradient Top Border (matching header gradient) -->
+  <div
+    class="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-primary to-transparent opacity-70 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6"
+  >
+    <div class="flex flex-col items-center sm:items-start gap-1">
+      <div class="flex items-center gap-2 font-bold text-foreground">
+        <span
+          class="bg-linear-to-r from-primary via-secondary to-primary bg-clip-text text-transparent"
+        >
+          {profile.name}
+        </span>
+        <span class="text-xs text-muted-foreground font-normal"
+          >• {profile.title}</span
+        >
+      </div>
+      <p class="text-xs text-muted-foreground">
+        © {currentYear}
+        {" "}
+        {profile.name}. All rights reserved.
+      </p>
+    </div>
+
+    <!-- Quick Navigation Links -->
+    <nav
+      class="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground"
+    >
+      {
+        navItems.map((item) => (
+          <a href={item.href} class="hover:text-foreground transition-colors">
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</footer>

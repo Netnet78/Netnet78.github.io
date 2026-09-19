@@ -20,3 +20,8 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Rules & Conventions
+
+- **Sections Must Have `reveal` Class**: Every single `<section>` element created across all pages and components must include the `reveal` class (e.g. `<section id="..." class="... reveal">`). This class is required for the global scroll-reveal intersection animation.
+

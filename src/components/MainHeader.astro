@@ -1,0 +1,198 @@
+---
+import { Image } from "astro:assets";
+import DownloadCvButton from "./DownloadCvButton";
+import ContactButton from "./ContactButton";
+
+const navItems = [
+  { label: "Home", href: "/", sectionId: "hero" },
+  { label: "About", href: "/#about", sectionId: "about" },
+  { label: "Experiences", href: "/#experiences", sectionId: "experiences" },
+  { label: "Projects", href: "/#projects", sectionId: "projects" },
+  { label: "Skills", href: "/#skills", sectionId: "skills" },
+  { label: "Education", href: "/#education", sectionId: "education" },
+  { label: "Contact", href: "/#contact", sectionId: "contact" },
+];
+
+interface Props {
+  activeUrl?: string;
+}
+
+const { activeUrl } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 bg-background/60 backdrop-blur-md">
+  <!-- Gradient Bottom Border (matching footer gradient) -->
+  <div
+    class="absolute bottom-0 inset-x-0 h-px bg-linear-to-r from-transparent via-secondary to-transparent opacity-70 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="w-full flex items-center justify-between sm:justify-center gap-0 sm:gap-18 p-4"
+  >
+    <a href="/" class="font-bold text-white text-lg tracking-tight">
+      <div class="flex gap-4 items-center">
+        <div
+          class="overflow-hidden w-9 h-9 sm:w-12 sm:h-12 rounded-full border-2 border-secondary"
+        >
+          <Image
+            width={64}
+            height={64}
+            alt="Sy Sophaneth profile picture"
+            src={"/images/square-profile.jpg"}
+          />
+        </div>
+        <div class="flex flex-col gap-1 *:m-0 *:text-sm">
+          <p>Sy Sophaneth</p>
+          <p class="text-muted-foreground font-normal">Software | Educator</p>
+        </div>
+      </div>
+    </a>
+
+    <nav class="xl:flex gap-1 sm:gap-2 hidden" id="header-nav">
+      {
+        navItems.map((item) => {
+          const active =
+            item.href === activeUrl || (!activeUrl && item.href === "/");
+          return (
+            <a
+              href={item.href}
+              data-section={item.sectionId}
+              class={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                active
+                  ? "bg-primary text-primary-foreground border border-primary/20"
+                  : "text-slate-400 hover:text-foreground hover:bg-muted"
+              }`}
+              aria-current={active ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <DownloadCvButton client:load />
+      <ContactButton client:load />
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupScrollSpy() {
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(
+      "#header-nav a[data-section]",
+    );
+    if (navLinks.length === 0) return;
+
+    const sections = Array.from(navLinks)
+      .map((link) => {
+        const id = link.getAttribute("data-section");
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((sec): sec is HTMLElement => sec !== null);
+
+    if (sections.length === 0) return;
+
+    const activeClasses = [
+      "bg-primary",
+      "text-primary-foreground",
+      "border",
+      "border-primary/20",
+    ];
+    const inactiveClasses = [
+      "text-slate-400",
+      "hover:text-foreground",
+      "hover:bg-muted",
+    ];
+
+    let currentActiveId: string | null = null;
+
+    function setActive(sectionId: string) {
+      if (currentActiveId === sectionId) return;
+      currentActiveId = sectionId;
+
+      navLinks.forEach((link) => {
+        const isMatch = link.getAttribute("data-section") === sectionId;
+        if (isMatch) {
+          link.classList.remove(...inactiveClasses);
+          link.classList.add(...activeClasses);
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.classList.remove(...activeClasses);
+          link.classList.add(...inactiveClasses);
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    // IntersectionObserver watching the focus band beneath the sticky header
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Collect visible sections
+        const visibleSections: { id: string; top: number }[] = [];
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleSections.push({
+              id: entry.target.id,
+              top: entry.boundingClientRect.top,
+            });
+          }
+        });
+
+        if (visibleSections.length > 0) {
+          // Sort by proximity to top of the focus area
+          visibleSections.sort(
+            (a, b) => Math.abs(a.top - 100) - Math.abs(b.top - 100),
+          );
+          setActive(visibleSections[0].id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-100px 0px -55% 0px",
+        threshold: [0, 0.2, 0.5],
+      },
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    // Fallback and edge case handler for top and bottom of page
+    function handleScrollEdges() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      if (scrollY < 80 && sections.length > 0) {
+        setActive(sections[0].id);
+        return;
+      }
+
+      if (scrollY + windowHeight >= docHeight - 50 && sections.length > 0) {
+        setActive(sections[sections.length - 1].id);
+        return;
+      }
+    }
+
+    window.addEventListener("scroll", handleScrollEdges, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScrollEdges);
+    };
+  }
+
+  let cleanupScrollSpy: (() => void) | undefined;
+
+  function init() {
+    if (cleanupScrollSpy) {
+      cleanupScrollSpy();
+      cleanupScrollSpy = undefined;
+    }
+    cleanupScrollSpy = setupScrollSpy();
+  }
+
+  document.addEventListener("astro:page-load", init);
+</script>
