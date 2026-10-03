@@ -66,14 +66,16 @@ export const profile = {
       description:
         "Comprehensive desktop application to streamline school administrative duties, record keeping, and grade calculations with local relational database storage.",
       tags: ["C#", "WPF", "XAML", "Database"],
+      github: "https://github.com/Netnet78/School-Management-System",
+      view: "https://www.youtube.com/watch?v=ZbR2og62aPM",
     },
     {
-      title: "CS Student Curriculum Labs",
-      category: "EDUCATION • WEB",
-      icon: "fa-solid fa-graduation-cap",
+      title: "Clone of Apple Website",
+      category: "3D • WEB",
+      icon: "fa-brands fa-apple",
       description:
-        "Curated practical coding demonstrations, algorithm visualizers, and learning exercises designed specifically for secondary school technical students.",
-      tags: ["Full Stack Web", "Algorithms", "Curriculum"],
+        "Curated practical coding demonstrations, 3D visualizations, and cool design by using THREE.js with React (React THREE Fiber).",
+      tags: ["3D Design", "Web Design", "3D Animation"],
     },
     {
       title: "Institutional Media Workflow",
@@ -82,6 +84,7 @@ export const profile = {
       description:
         "Integrated publication pipeline combining graphic assets, video updates, and formal announcements for official Don Bosco communications.",
       tags: ["Graphic Design", "Video Editing", "Community"],
+      view: "https://web.facebook.com/people/Saythatdbppt/61586232454858",
     },
   ],
   skills: [

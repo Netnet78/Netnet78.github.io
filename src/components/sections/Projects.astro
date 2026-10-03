@@ -1,5 +1,6 @@
 ---
 import { profile } from "@/data/cv";
+import { Button } from "../ui/button";
 ---
 
 <!-- Projects Section -->
@@ -24,7 +25,7 @@ import { profile } from "@/data/cv";
       <p
         class="text-muted-foreground text-base sm:text-lg max-w-2xl leading-relaxed"
       >
-        A selection of desktop applications, educational curriculum tools, and multimedia workflows engineered for performance and real-world utility.
+        A selection of desktop applications, comprehensive animation websites, and multimedia workflows engineered for performance and real-world utility.
       </p>
     </div>
 
@@ -59,7 +60,7 @@ import { profile } from "@/data/cv";
               </div>
             </div>
 
-            <!-- Skill Tags Footer -->
+            <!-- Skill Tags -->
             <div class="pt-6 relative z-10 space-y-4">
               <div class="h-px w-full bg-border/60" />
               <div class="flex flex-wrap gap-1.5">
@@ -70,6 +71,17 @@ import { profile } from "@/data/cv";
                 ))}
               </div>
             </div>
+
+            <!-- Link and Github -->
+            {project.view != null || project.github != null
+            ? <>
+              <div class="pt-6 relative z-10 flex gap-2 justify-baseline items-start">
+                {project.github != null 
+                  ? <Button variant={"outline"}><a href={project.github} target="_blank"><i class="fa-brands fa-github"></i> Repository</a></Button> : ""}
+                {project.view != null 
+                  ? <Button className={"flex-1"}><a href={project.view} target="_blank"><i class="fa-solid fa-eye"></i> View</a></Button> : ""}
+              </div>
+            </> : <></>}
           </div>
         ))
       }
