@@ -76,6 +76,8 @@ export const profile = {
       description:
         "Curated practical coding demonstrations, 3D visualizations, and cool design by using THREE.js with React (React THREE Fiber).",
       tags: ["3D Design", "Web Design", "3D Animation"],
+      github: "https://github.com/Netnet78/apple-website",
+      view: "https://sophanethsy.netlify.app/",
     },
     {
       title: "Institutional Media Workflow",
