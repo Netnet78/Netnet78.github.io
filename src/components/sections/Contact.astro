@@ -89,31 +89,6 @@ import { profile } from "@/data/cv";
               ></i>
             </a>
 
-            <!-- Phone -->
-            <a
-              href={`tel:${profile.phone.replace(/[^0-9+]/g, "")}`}
-              class="group flex items-center gap-3.5 p-3 rounded-xl border border-border/60 bg-muted/20 hover:border-primary/40 hover:bg-muted/40 transition-all"
-            >
-              <div
-                class="w-10 h-10 rounded-lg bg-secondary/15 border border-secondary/25 flex items-center justify-center text-secondary shrink-0 group-hover:scale-105 transition-transform"
-              >
-                <i class="fa-solid fa-phone text-sm"></i>
-              </div>
-              <div class="min-w-0 flex-1">
-                <div class="text-xs text-muted-foreground font-medium">
-                  Phone
-                </div>
-                <div
-                  class="text-sm font-semibold text-foreground group-hover:text-secondary transition-colors"
-                >
-                  {profile.phone}
-                </div>
-              </div>
-              <i
-                class="fa-solid fa-arrow-up-right-from-square text-xs text-muted-foreground group-hover:text-secondary opacity-60 transition-opacity"
-              ></i>
-            </a>
-
             <!-- Location -->
             <div
               class="flex items-center gap-3.5 p-3 rounded-xl border border-border/60 bg-muted/20"

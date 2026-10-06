@@ -3,7 +3,6 @@ export const profile = {
   title: "Software Developer & Educator",
   location: "Poipet, Banteay Meanchey, Cambodia",
   email: "sysophaneth@gmail.com",
-  phone: "(+855) | 078815188",
   languages: [
     { name: "Khmer", level: "Native", highlight: true },
     { name: "English", level: "B2 / Fluent", highlight: true },

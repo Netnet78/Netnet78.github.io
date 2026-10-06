@@ -17,7 +17,7 @@ const ContactButton = () => {
               <div className="bg-secondary w-2 h-2 rounded-full absolute left-1/2 top-1/2 -translate-1/2 animate-pulse"></div>
             </div>
             <span className="hidden md:block">Contact me</span>
-            <i className="fa-solid fa-phone"></i>
+            <i className="fa-regular fa-paper-plane"></i>
           </Button>
         </a>
       </TooltipTrigger>
